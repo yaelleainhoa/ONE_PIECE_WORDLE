@@ -22,6 +22,18 @@
   transition: opacity 0.3s;
 }
 
+.correct{
+  background-color: var(--color-true);
+}
+
+.false{
+  background-color: var(--color-false);
+}
+
+.partial{
+  background-color: var(--color-partial);
+}
+
 @media (min-width: 1024px) {
   body {
     display: flex;

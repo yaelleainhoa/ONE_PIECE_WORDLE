@@ -8,9 +8,13 @@ import {getRaces} from '@/services/api/opAPI.js'
     <!-- <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" /> -->
 
     <div class="wrapper">
+      <div id="guesser">
+        <input v-on:keyup.enter="sendCharacter()" type="search" class="input" v-model="search" placeholder="Enter Character">
+        <button @click="sendCharacter()">Send</button>
+      </div>
       <div class="characters">
-        <CharacterLine/>
-        <CharacterLine/>
+        <CharacterLine :characterAttributes="characterToGuessData"/>
+        <CharacterLine :characterAttributes="characterToTestData"/>
       </div>
       <nav>
         <RouterLink to="/">Home</RouterLink>
@@ -30,11 +34,14 @@ import {getRaces} from '@/services/api/opAPI.js'
       },
     data() {
       return {
-        RacesData: [],
+        characterToGuessData: [],
+        characterToTestData: [],
+        charactersList: [], //will depend on the level
+        search: ""
       }
     },
     created: function(){
-      this.retrieveRacesData();
+      this.retrieveCharacterData();   
     },
     computed: {
     mainRace: function(){
@@ -43,10 +50,24 @@ import {getRaces} from '@/services/api/opAPI.js'
     },
   },
     methods: {
-      async retrieveRacesData() {
-          this.RacesData = await getRaces();
-          console.log(this.RacesData['<property_name>'])
-          // console.log(this.RacesData[hydra:member])
+      async retrieveCharacterData() {
+        this.characterToGuessData.push({"values": "Nico Robin", "image": "https://static.printler.com/cache/8/9/d/7/2/a/89d72a714be71411cb521f59c86111d13eee5bf5.jpg"});
+        this.characterToGuessData.push({"values": ["Baroque Works", "Chapeau de paille"], "image": ""});
+        this.characterToGuessData.push({"values": "1,80m", "image": ""});  
+
+        this.characterToTestData.push({"values": "Nami", "image": "https://i.pinimg.com/736x/cd/a9/8e/cda98e75fc1ae5a9d46fa065599c5850.jpg"});
+        this.characterToTestData.push({"values": ["Chapeau de paille"], "image": ""});
+        this.characterToTestData.push({"values": "1,70m", "image": ""});  
+
+        this.charactersList = ["Nico Robin", "Nami", "Monkey D Luffy", "Roronoa Zoro", "Sanji Vinsmoke", "Jinbei", "Franky", "Brook", "Chopper", "Usopp"]
+
+        console.log(await getRaces()['<property_name>'])
+      },
+
+      sendCharacter: function () {
+        window.scroll(0,0);
+        console.log("search :", this.search)
+        this.$emit("searchRecipe", this.search)
       }
 
     }

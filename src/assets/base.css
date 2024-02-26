@@ -12,7 +12,7 @@
   --color-case: #fcf0be;
   --color-false: #c63333;
   --color-true: #57af3f;
-  --color-mid: #edb02c;
+  --color-partial: #edb02c;
 
   --color-tooltip-background: #ffffff;
   --color-tooltip-text: #101012;
@@ -32,7 +32,7 @@
     --color-case: #536168;
     --color-false: #a12929;
     --color-true: #479112;
-    --color-mid: #eca014;
+    --color-partial: #e3980c;
 
     --color-tooltip-background: #717273;
     --color-tooltip-text: #ffffff;

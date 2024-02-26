@@ -1,13 +1,19 @@
 <script setup>
+import { toRaw } from 'vue';
+import {compareValues} from '@/services/api/opAPI.js'
+
 defineProps({
+  column: {
+    default: 0,
+    type:Number
+  },
   image: {
     default: null,
     type: String,
   },
-  value: {
-    default: null,
-    type: Array
-  }
+  values: {
+    default: null
+    }
 })
 </script>
 
@@ -16,16 +22,46 @@ defineProps({
     <span class="tooltipText">{{value}}</span>
     <img alt="Character face" v-bind:src=image />
   </div>
-  <div v-else class="case fullText">
+  <div v-else class="case fullText" :class="[isCaseCorrect == 0 ? 'false' : isCaseCorrect == 1 ? 'correct' : 'partial']">
     <p>{{ value }}</p>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Case',
+  data() {
+    return {
+      value: "",
+      isCaseCorrect : 0
+    }
+  },
+  created: function()
+  {
+    this.verifyCase();
+  },
+  methods:
+  {
+    verifyCase: function(){
+      //test color background
+      let caseValues = toRaw(this.values);
+      this.isCaseCorrect = compareValues(caseValues, this.column);
+      console.log("isCaseCorrect ?", this.isCaseCorrect);
+      if(Array.isArray(caseValues)){
+        this.value = caseValues.join(", ");
+      }
+      else{
+        this.value=caseValues;
+      }
+    },
+  },
+}
+</script>
 
 <style scoped>
 .case{
   width:var(--case-width);
   height: var(--case-width);
-  background : var(--color-case);
   border:solid;
   border-color : var(--color-border);
   border-width:1px;

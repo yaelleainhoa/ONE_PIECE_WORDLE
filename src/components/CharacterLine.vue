@@ -2,16 +2,33 @@
 import Case from './Case.vue'
 
 defineProps({
+  characterAttributes: {
+    default: null,
+    type: Array,
+  },
 })
 </script>
 
 <template>
   <div class="characterLine">
-    <Case value="Nico Robin" image="https://static.printler.com/cache/8/9/d/7/2/a/89d72a714be71411cb521f59c86111d13eee5bf5.jpg"></Case>
-    <Case value="Chapeau de paille"></Case>
-    <Case value="1,80m"></Case>
+    <div v-for="(attribute, index) in characterAttributes" :key=attribute.id>
+      <Case :values=attribute.values :image=attribute.image :column=index></Case>
+    </div>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'CharacterLine',
+  data() {
+    return {
+    }
+  },
+  created: function()
+  {  
+  }
+}
+</script>
 
 <style scoped>
 .characterLine{
