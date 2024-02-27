@@ -22,7 +22,7 @@ defineProps({
     <span class="tooltipText">{{value}}</span>
     <img alt="Character face" v-bind:src=image />
   </div>
-  <div v-else class="case fullText" :class="[isCaseCorrect == 0 ? 'false' : isCaseCorrect == 1 ? 'correct' : 'partial']">
+  <div v-else class="case fullText" :class="[isCaseCorrect == -1 ? 'false' : isCaseCorrect == 1 ? 'correct' : 'partial']">
     <p>{{ value }}</p>
   </div>
 </template>
@@ -43,10 +43,8 @@ export default {
   methods:
   {
     verifyCase: function(){
-      //test color background
       let caseValues = toRaw(this.values);
       this.isCaseCorrect = compareValues(caseValues, this.column);
-      console.log("isCaseCorrect ?", this.isCaseCorrect);
       if(Array.isArray(caseValues)){
         this.value = caseValues.join(", ");
       }
