@@ -6,7 +6,7 @@ import {ref, computed} from 'vue'
 </script>
 
 <template>
-    <div>
+    <div @blur="handleBlur">
       <div class="guess">
         <input
           type="text"
@@ -14,6 +14,7 @@ import {ref, computed} from 'vue'
           v-model="searchTerm"
           placeholder="Type here..."
           @input="setSuggestions"
+          autocomplete="off"
         >
         <ul
           v-if="searchCharacters.length"
@@ -62,6 +63,9 @@ import {ref, computed} from 'vue'
             console.log("set suggestions : ",this.searchTerm, "and searchCharacters: ", this.searchCharacters);
             // }
         },
+        handleBlur: function(){
+          this.searchCharacters = []
+        }
     }
   }
 </script>
@@ -75,7 +79,32 @@ import {ref, computed} from 'vue'
     align-items: center;
 }
 
+#search
+{
+  width: var(--search-width);
+  height: var(--search-height);
+}
 
+ul{
+  position: absolute;
+  padding:0px;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(0, var(--search-height));
+}
+
+li{
+  width: var(--search-width);
+  background-color: white;
+  color:black;
+}
+
+li:hover{
+  cursor:pointer;
+  background-color: var(--color-border-hover);
+}
 
 @media (min-width: 1024px) {
 }

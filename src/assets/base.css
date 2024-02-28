@@ -18,6 +18,8 @@
   --color-tooltip-text: #101012;
 
   --case-width:100px;
+  --search-width:200px;
+  --search-height:30px;
 }
 
 @media (prefers-color-scheme: dark) {
