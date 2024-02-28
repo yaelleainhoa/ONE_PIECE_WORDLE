@@ -6,22 +6,17 @@ const hasImage = function(data){
 
 const getAttribute = function(data, attribute){
     if(Array.isArray(data)){
-        let image = "";
         let values = [];
         data.forEach((currentData) => {
-            if(image == "" && hasImage(currentData))
-            {
-                image =currentData.image
-            }
             values.push(currentData.name)
         });
-        return {"name":attribute, "values": values, "image":image};
+        return {"name":attribute, "values": values, "image":""};
     }
     return hasImage(data) ? {"name":attribute, "values":data.name, "image": data.image} : {"values": data.name, "image":""};
 }
 
 const getPath = async function(path){
-    const response = await fetch("https://127.0.0.1:8003"+path)
+    const response = await fetch("https://127.0.0.1:8000"+path)
     if (response.status == 200)
     {
         const data = await response.json()
@@ -59,30 +54,36 @@ const addAttribute = async function(characterAttributes, data, attribute)
     }
 }
 
-const getCharacterAttributes = async function(characterId){
-    const pathCharacter = "https://127.0.0.1:8003/api/characters/"+characterId;
+const getCharacterAttributes = async function(data)
+{
+    let characterAttributes = []
+    let attributes = ["hair_color", "sex", "first_apparition", "health", "weapon"]
+    let classAttributes = ["groups", "subgroups", "devilFruits", "main_flag", "flags", "hakis"]
+
+    characterAttributes.push({"name":"character", "values": data.names[0], "image":data.image})
+
+    for (const index in attributes) 
+    {
+        if(data[attributes[index]]) characterAttributes.push({"name":attributes[index], "values": data[attributes[index]], "image":""})
+        else characterAttributes.push({"name":attributes[index], "values": "None", "image":""})
+    }
+
+    for (const index in classAttributes) 
+    {
+        await addAttribute(characterAttributes, data, classAttributes[index]);
+    }
+
+    return characterAttributes
+}
+
+const getCharacterAttributesById = async function(characterId){
+    const pathCharacter = "https://127.0.0.1:8000/api/characters/"+characterId;
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {
         const data = await response.json()
-        console.log("full data :", data)
-        let characterAttributes = []
-        let attributes = ["hair_color", "sex", "first_apparition", "health", "weapon"]
-        let classAttributes = ["groups", "subgroups", "devilFruits", "flags"]
-
-        characterAttributes.push({"name":"character", "values": data.name, "image":data.image})
-
-        for (const index in attributes) 
-        {
-            characterAttributes.push({"name":attributes[index], "values": data[attributes[index]], "image":""})
-        }
-
-        for (const index in classAttributes) 
-        {
-            await addAttribute(characterAttributes, data, classAttributes[index]);
-        }
-
-        return characterAttributes
+        let characterAttributes = await getCharacterAttributes(data);
+        return characterAttributes;
     }
     else{
         new Error(response.statusText)
@@ -92,7 +93,7 @@ const getCharacterAttributes = async function(characterId){
 const setRandomCharacterToGuess = 
 async function()
 {
-    currentCharacterToGuess = await getCharacterAttributes(1);
+    currentCharacterToGuess = await getCharacterAttributesById(3);
 }
 
 function arraysHaveCommonElements(arr1, arr2) {
@@ -110,12 +111,11 @@ function arraysHaveCommonElements(arr1, arr2) {
 const compareValues =
     function(values, column) {
     let currentValue = currentCharacterToGuess;
-    console.log("object values : ", values, " char to guess : ", currentValue[column].values)
     return arraysHaveCommonElements(currentValue[column].values, values);
 }
 
 const getCharacters = async function(){
-    const pathCharacter = "https://127.0.0.1:8003/api/characters?page=1";
+    const pathCharacter = "https://127.0.0.1:8000/api/characters?page=1";
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {
@@ -129,9 +129,35 @@ const getCharacters = async function(){
     }
 }
 
+const getCharactersSearch = async function(search, nb){
+    const pathCharacter = search=="" ? "https://127.0.0.1:8000/api/characters?page=1" : "https://127.0.0.1:8000/api/characters?names[]="+search;
+    const response = await fetch(pathCharacter)
+    if (response.status == 200)
+    {
+        const data = await response.json()
+        let charactersData = data['hydra:member'].slice(0,nb)
+        return charactersData;
+    }
+    else{
+        new Error(response.statusText)
+    }
+}
+
+const getCharactersSuggestions = async function(search, nb)
+{
+    let charactersSuggestionsAllAttributes = await getCharactersSearch(search, nb);
+    if (charactersSuggestionsAllAttributes == []) return []
+    let charactersSuggestions = []
+    for (const index in charactersSuggestionsAllAttributes)
+    {
+        charactersSuggestions.push({"id":charactersSuggestionsAllAttributes[index].id, "name":charactersSuggestionsAllAttributes[index].names[0]});
+    }
+    return charactersSuggestions;
+}
+
 export {
     compareValues,
-    getCharacters,
-    getCharacterAttributes,
+    getCharactersSuggestions,
+    getCharacterAttributesById,
     setRandomCharacterToGuess
     }

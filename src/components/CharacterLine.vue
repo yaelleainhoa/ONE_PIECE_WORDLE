@@ -24,10 +24,6 @@ export default {
     return {
     }
   },
-  created()
-  {
-    console.log("!!!!!", this.characterAttributes)
-  },
   mounted()
   {  
     this.fadeInCases();

@@ -1,19 +1,13 @@
 <script setup>
 
 import CharacterLine from '@/components/CharacterLine.vue'
-import {getCharacters, getCharacterAttributes, setRandomCharacterToGuess} from '@/services/api/opAPI.js'
-import { toRaw } from 'vue';
+import ResearchCharacter from '@/components/ResearchCharacter.vue'
+import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/api/opAPI.js'
 
 </script>
 
 <template>
-  <div id="guesser">
-    <input v-on:keyup.enter="sendCharacter()" type="search" class="input" v-model="search" list="characterSuggestion" placeholder="Enter Character">
-    <datalist id="characterSuggestion">
-      <option v-for="character in charactersList.slice(0, 10)"> {{ character  }}</option>
-    </datalist>
-    <button @click="sendCharacter()">Send</button>
-  </div>
+  <ResearchCharacter v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
   <div class="characters">
         <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
   </div>
@@ -28,14 +22,12 @@ import { toRaw } from 'vue';
   export default {
     name: 'Home',
     components: {
-      CharacterLine
+      CharacterLine,
+      ResearchCharacter
       },
     data() {
       return {
-        charactersList: [], //will depend on the level
         charactersLinesList: [],
-        search: "",
-        currentIndex:2
       }
     },
     created: function(){
@@ -49,18 +41,25 @@ import { toRaw } from 'vue';
   },
     methods: {
       async retrieveCharacterData() { 
-        this.charactersList = ["Nico Robin", "Nami", "Monkey D Luffy", "Roronoa Zoro", "Sanji Vinsmoke", "Jinbei", "Franky", "Brook", "Chopper", "Usopp"]
         await setRandomCharacterToGuess();
-        // console.log("attributes :", await getCharacterAttributes(1)) //['<property_name>'])
       },
-
-      sendCharacter: async function () {
-        window.scroll(0,0);
-        let characterAttributes = await getCharacterAttributes(this.currentIndex)
+      addCharacter: async function(id)
+      {
+        console.log("ID ?? ", id)
+        let characterAttributes = await getCharacterAttributesById(id)
         this.charactersLinesList.push(characterAttributes)
-        console.log("attributes : ",characterAttributes)
-        this.search=""
       }
+      // sendCharacter: async function (event) {
+      //   window.scroll(0,0);
+      //   // let characterAttributes = await getCharacterAttributesById(event.target.value.id)
+      //   // this.charactersLinesList.push(characterAttributes)
+      //   let characterSuggestion = await getCharactersSuggestions(this.search, this.suggestionLimitation);
+      //   this.charactersList = characterSuggestion
+      //   console.log("list 1: ", event.target.value.id, " " ,characterSuggestion)
+      //   // console.log("attribute SEARCs : ",await getCharactersSearch(this.search))
+      //   // console.log("attributes ID :", await getCharacterAttributesById(this.currentIndex))
+      //   this.search=""
+      // }
 
     }
   }
