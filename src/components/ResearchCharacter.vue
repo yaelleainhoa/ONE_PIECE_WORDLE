@@ -44,7 +44,11 @@ import {ref, computed} from 'vue'
     const selectCharacter = (character) => {
       this.searchTerm =""
       this.searchCharacters = []
-      this.$emit("selectCharacter", character.id)
+      if(!this.alreadySelectedCharacters.includes(character.id))
+      {
+        this.alreadySelectedCharacters.push(character.id)
+        this.$emit("selectCharacter", character.id)
+      }
     }
 
     return {
@@ -52,7 +56,8 @@ import {ref, computed} from 'vue'
       searchCharacters : [],
       selectCharacter,
       selectedCharacter,
-      suggestionLimitation : 5
+      suggestionLimitation : 5,
+      alreadySelectedCharacters : []
     }
     },
     methods: {
