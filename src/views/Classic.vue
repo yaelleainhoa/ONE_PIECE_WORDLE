@@ -2,14 +2,22 @@
 
 import CharacterLine from '@/components/CharacterLine.vue'
 import ResearchCharacter from '@/components/ResearchCharacter.vue'
+import ChooseDifficulty from '@/components/ChooseDifficulty.vue'
 import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/api/opAPI.js'
 
 </script>
 
 <template>
+  <header></header>
+  <ChooseDifficulty v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
   <ResearchCharacter v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
   <div class="characters">
-        <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
+    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
+    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
+    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
+    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
+    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
+    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
   </div>
   <nav>
       <RouterLink to="/">Home</RouterLink>
@@ -23,15 +31,17 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
     name: 'Home',
     components: {
       CharacterLine,
-      ResearchCharacter
+      ResearchCharacter,
+      ChooseDifficulty
       },
     data() {
       return {
         charactersLinesList: [],
+        currentDifficulty: 10
       }
     },
     created: function(){
-      this.retrieveCharacterData();   
+      this.setRandomCharacter();   
     },
     computed: {
     mainCharacter: function(){
@@ -40,26 +50,21 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
     },
   },
     methods: {
-      async retrieveCharacterData() { 
-        await setRandomCharacterToGuess();
-      },
       addCharacter: async function(id)
       {
-        console.log("ID ?? ", id)
         let characterAttributes = await getCharacterAttributesById(id)
         this.charactersLinesList.push(characterAttributes)
+      },
+      selectDifficulty: function(difficulty)
+      {
+        this.currentDifficulty=difficulty;
+        this.setRandomCharacter()
+      },
+      setRandomCharacter: async function()
+      {
+        this.charactersLinesList = [];
+        await setRandomCharacterToGuess(this.currentDifficulty)
       }
-      // sendCharacter: async function (event) {
-      //   window.scroll(0,0);
-      //   // let characterAttributes = await getCharacterAttributesById(event.target.value.id)
-      //   // this.charactersLinesList.push(characterAttributes)
-      //   let characterSuggestion = await getCharactersSuggestions(this.search, this.suggestionLimitation);
-      //   this.charactersList = characterSuggestion
-      //   console.log("list 1: ", event.target.value.id, " " ,characterSuggestion)
-      //   // console.log("attribute SEARCs : ",await getCharactersSearch(this.search))
-      //   // console.log("attributes ID :", await getCharacterAttributesById(this.currentIndex))
-      //   this.search=""
-      // }
 
     }
   }

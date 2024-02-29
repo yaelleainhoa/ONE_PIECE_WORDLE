@@ -28,7 +28,6 @@ button:hover{
   flex-direction: column;
   width: 100vw;
   position: relative;
-  top: 40px;
 }
 
 header{
@@ -38,7 +37,48 @@ header{
   top: 0px;
   height: 50px;
   left: 0px;
-  z-index: 10;
+}
+
+.frontWindow
+{
+  background-color: white;
+  color: black;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  width: 60vw;
+  height: 80vh;
+  margin: 10vh 20vw;
+}
+
+.close {
+  position: absolute;
+  right: var(--close-height);
+  top: var(--close-height);
+  width: var(--close-height);
+  height: var(--close-height);
+  opacity: 0.3;
+  z-index:100;
+}
+.close:hover {
+  opacity: 1;
+  cursor: pointer; 
+}
+.close:before, .close:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: var(--close-height);
+  width: 2px;
+  background-color: #110527;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
 }
 
 .tooltipText {
@@ -68,11 +108,4 @@ header{
 }
 
 @media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-  }
 }

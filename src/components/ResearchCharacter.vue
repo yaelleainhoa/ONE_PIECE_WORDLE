@@ -13,7 +13,7 @@ import {ref, computed} from 'vue'
           id="search"
           v-model="searchTerm"
           placeholder="Type here..."
-          @input="setSuggestions"
+          @input="handleInput"
           autocomplete="off"
         >
         <ul
@@ -61,16 +61,25 @@ import {ref, computed} from 'vue'
     }
     },
     methods: {
-        setSuggestions: async function(){
-            // if(this.searchTerm.length >= 3){
-            let characterSuggestion = await getCharactersSuggestions(this.searchTerm, this.suggestionLimitation);
-            this.searchCharacters = characterSuggestion;
-            console.log("set suggestions : ",this.searchTerm, "and searchCharacters: ", this.searchCharacters);
-            // }
-        },
-        handleBlur: function(){
-          this.searchCharacters = []
+      handleInput: function(event) {
+          const debounceTime = 300;
+          if (this.debouncer) {
+            clearTimeout(this.debouncer);
+          }
+          this.debouncer = setTimeout(() => {
+            this.setSuggestions();
+          }, debounceTime);
+      },
+      setSuggestions: async function(){
+        this.searchCharacters = [];
+        if(this.searchTerm){
+          let characterSuggestion = await getCharactersSuggestions(this.searchTerm, this.suggestionLimitation);
+          this.searchCharacters = characterSuggestion;
         }
+      },
+      handleBlur: function(){
+        this.searchCharacters = []
+      }
     }
   }
 </script>

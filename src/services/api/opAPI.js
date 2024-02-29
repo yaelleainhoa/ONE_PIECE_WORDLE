@@ -16,7 +16,7 @@ const getAttribute = function(data, attribute){
 }
 
 const getPath = async function(path){
-    const response = await fetch("https://127.0.0.1:8002"+path)
+    const response = await fetch("https://127.0.0.1:8000"+path)
     if (response.status == 200)
     {
         const data = await response.json()
@@ -77,7 +77,7 @@ const getCharacterAttributes = async function(data)
 }
 
 const getCharacterAttributesById = async function(characterId){
-    const pathCharacter = "https://127.0.0.1:8002/api/characters/"+characterId;
+    const pathCharacter = "https://127.0.0.1:8000/api/characters/"+characterId;
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {
@@ -91,11 +91,11 @@ const getCharacterAttributesById = async function(characterId){
 }
 
 const setRandomCharacterToGuess = 
-async function()
+async function(difficulty)
 {
-    let randomCharacter = await getPath("/api/random-character")
-    console.log("CHAR : ", await getCharacterAttributes(randomCharacter));
+    let randomCharacter = await getPath("/api/random-character/"+difficulty)
     currentCharacterToGuess = await getCharacterAttributes(randomCharacter);
+    return currentCharacterToGuess;
 }
 
 function arraysHaveCommonElements(arr1, arr2) {
@@ -117,13 +117,11 @@ const compareValues =
 }
 
 const getCharacters = async function(){
-    const pathCharacter = "https://127.0.0.1:8002/api/characters?page=1";
+    const pathCharacter = "https://127.0.0.1:8000/api/characters?page=1";
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {
         const data = await response.json()
-        // console.log(data['hydra:member'][0])
-        // console.log("TEST : ", data['hydra:member'][0]["name"]) 
         return data
     }
     else{
@@ -132,7 +130,7 @@ const getCharacters = async function(){
 }
 
 const getCharactersSearch = async function(search, nb){
-    const pathCharacter = search=="" ? "https://127.0.0.1:8002/api/characters?page=1" : "https://127.0.0.1:8002/api/characters?names[]="+search;
+    const pathCharacter = search=="" ? "https://127.0.0.1:8000/api/characters?page=1" : "https://127.0.0.1:8000/api/characters?names[]="+search;
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {

@@ -20,6 +20,7 @@
   --case-width:100px;
   --search-width:200px;
   --search-height:30px;
+  --close-height:20px;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -74,4 +75,8 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* background-image: url(background.jpg); */
+  background-attachment: fixed;
+  background-position: center;
+  background-size: 3000px 1000px;
 }

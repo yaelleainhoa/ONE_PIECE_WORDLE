@@ -3,7 +3,6 @@
 </script>
 
 <template>
-  <header></header>
   <div id="appContent">
       <router-view/>
   </div>
