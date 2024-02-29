@@ -17,7 +17,7 @@
   --color-tooltip-background: #ffffff;
   --color-tooltip-text: #101012;
 
-  --case-width:100px;
+  --case-width:80px;
   --search-width:200px;
   --search-height:30px;
   --close-height:20px;
@@ -26,8 +26,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: #181c1e;
-    --color-border: #48545e;
-    --color-border-hover: #849aaa;
+    --color-border: #000000;
+    --color-border-hover: #121415;
 
     --color-heading: #839aaa;
     --color-text: #f5fbff;

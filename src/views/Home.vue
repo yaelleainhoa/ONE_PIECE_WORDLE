@@ -1,8 +1,14 @@
+<script setup lang="ts">
+
+import Header from '@/components/Header.vue';
+
+</script>
+
 <template>
     <div>
-      <h1>Home</h1>
+      <Header></Header>
       <nav>
-        <RouterLink to="/ONE_PIECE_WORDLE/classic">Play</RouterLink>
+        <RouterLink to="/ONE_PIECE_WORDLE/classic">Classic mode</RouterLink>
       </nav>
     </div>
   </template>

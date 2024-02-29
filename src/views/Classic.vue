@@ -3,12 +3,14 @@
 import CharacterLine from '@/components/CharacterLine.vue'
 import ResearchCharacter from '@/components/ResearchCharacter.vue'
 import ChooseDifficulty from '@/components/ChooseDifficulty.vue'
+import Header from '@/components/Header.vue'
 import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/api/opAPI.js'
 
 </script>
 
 <template>
-  <header></header>
+  <Header>
+  </Header>
   <ChooseDifficulty v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
   <ResearchCharacter v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
   <div class="characters">
@@ -19,10 +21,9 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
     <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
     <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
   </div>
-  <nav>
+  <!-- <nav>
       <RouterLink to="/">Home</RouterLink>
-  </nav>
-
+  </nav> -->
   <RouterView />
 </template>
 
@@ -32,7 +33,8 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
     components: {
       CharacterLine,
       ResearchCharacter,
-      ChooseDifficulty
+      ChooseDifficulty,
+      Header
       },
     data() {
       return {

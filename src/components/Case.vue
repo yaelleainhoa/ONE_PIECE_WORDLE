@@ -62,8 +62,10 @@ export default {
   height: var(--case-width);
   border:solid;
   border-color : var(--color-border);
-  border-width:1px;
+  border-width:2px;
   overflow: hidden;
+  border-radius: 5px;
+  border-width: 2px;
 }
 .case img
 {

@@ -46,6 +46,7 @@ export default {
 .case-wrapper {
     opacity: 0;
     transition: opacity 0.5s ease;
+    margin: 2px;
   }
 .characterLine{
   display: flex;
