@@ -12,7 +12,7 @@ defineProps({
 <template>
   <div class="characterLine">
     <div v-for="(attribute, index) in characterAttributes" :key="index" class="case-wrapper" :style="{ transitionDelay: `${index * 0.2}s` }">
-      <Case :values=attribute.values :image=attribute.image :column=index></Case>
+      <Case v-on:caseIsCorrect="addCorrectCase" :values=attribute.values :image=attribute.image :column=index></Case>
     </div>
   </div>
 </template>
@@ -22,6 +22,7 @@ export default {
   name: 'CharacterLine',
   data() {
     return {
+      correctCasesNb : 0
     }
   },
   mounted()
@@ -36,6 +37,11 @@ export default {
             wrapper.style.opacity = 1;
           }, index * 200);
         });
+      },
+
+      addCorrectCase() {
+        this.correctCasesNb++;
+        if(this.correctCasesNb == this.characterAttributes.length) this.$emit("checkAnswer")
       }
     }
 }

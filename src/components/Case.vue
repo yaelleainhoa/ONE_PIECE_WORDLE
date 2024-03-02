@@ -19,7 +19,9 @@ defineProps({
 
 <template>
   <div v-if="image" class="case">
-    <span class="tooltipText">{{value}}</span>
+    <div class="tooltipText">
+      <p>{{value}}</p>
+    </div>
     <img alt="Character face" v-bind:src=image />
   </div>
   <div v-else class="case fullText" :class="[isCaseCorrect == -1 ? 'false' : isCaseCorrect == 1 ? 'correct' : 'partial']">
@@ -51,6 +53,7 @@ export default {
       else{
         this.value=caseValues;
       }
+      if(this.isCaseCorrect) this.$emit("caseIsCorrect")
     },
   },
 }
@@ -79,12 +82,22 @@ export default {
 }
 .case:hover .tooltipText {
   visibility: visible;
-  opacity: 1;
+  opacity: 0.8;
 }
 
 .tooltipText{
-  transform: translate(0%, var(--case-width));
-  width: var(--case-width);
+  display: flex;
+  align-items: center;
+  background-color: black;
+  width:var(--case-width);
+  height: var(--case-width);
+  text-align: center;
+  visibility: hidden;
+  opacity: 0;
+  padding:8px;
+  transition: opacity 0.3s;
+  justify-content: center;
+  position: absolute;
 }
 
 .fullText

@@ -72,20 +72,6 @@ button:hover{
   transform: rotate(-45deg);
 }
 
-.tooltipText {
-  visibility: hidden;
-  background-color: var(--color-tooltip-background);
-  color: var(--color-tooltip-text);
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  margin-top:10px;
-  position: absolute;
-  z-index: 5;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
 .correct{
   background-color: var(--color-true);
 }

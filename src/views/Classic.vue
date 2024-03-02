@@ -4,6 +4,7 @@ import CharacterLine from '@/components/CharacterLine.vue'
 import ResearchCharacter from '@/components/ResearchCharacter.vue'
 import ChooseDifficulty from '@/components/ChooseDifficulty.vue'
 import Header from '@/components/Header.vue'
+import CorrectAnswer from '@/components/CorrectAnswer.vue'
 import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/api/opAPI.js'
 
 </script>
@@ -13,13 +14,9 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
   </Header>
   <ChooseDifficulty v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
   <ResearchCharacter v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
+  <CorrectAnswer v-if="isAnswerCorrect" :image="characterToGuess.image" :name="characterToGuess.values" :isCharacterSame="isCharacterSame"></CorrectAnswer>
   <div class="characters">
-    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
-    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
-    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
-    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
-    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
-    <CharacterLine v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
+    <CharacterLine v-on:checkAnswer="checkAnswer" v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
   </div>
   <!-- <nav>
       <RouterLink to="/">Home</RouterLink>
@@ -34,12 +31,16 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
       CharacterLine,
       ResearchCharacter,
       ChooseDifficulty,
-      Header
+      Header,
+      CorrectAnswer
       },
     data() {
       return {
         charactersLinesList: [],
-        currentDifficulty: 10
+        currentDifficulty: 10,
+        characterToGuess : [],
+        isAnswerCorrect : false,
+        isCharacterSame :false
       }
     },
     created: function(){
@@ -65,7 +66,17 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
       setRandomCharacter: async function()
       {
         this.charactersLinesList = [];
-        await setRandomCharacterToGuess(this.currentDifficulty)
+        this.isAnswerCorrect = false;
+        this.isCharacterSame = false
+        this.characterToGuess = await setRandomCharacterToGuess(this.currentDifficulty)
+        this.characterToGuess = this.characterToGuess[0]
+      },
+      checkAnswer: function()
+      {
+        this.isAnswerCorrect = true
+        if(this.charactersLinesList[this.charactersLinesList.length - 1].id == this.characterToGuess.id) this.isCharacterSame = true;
+        else this.isCharacterSame = false
+        console.log(this.characterToGuess)
       }
 
     }
