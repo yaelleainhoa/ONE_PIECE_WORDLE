@@ -90,7 +90,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
 }
 .characters{
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-items: center;
 }
 

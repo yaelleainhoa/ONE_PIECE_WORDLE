@@ -6,7 +6,7 @@ import {ref, computed} from 'vue'
 </script>
 
 <template>
-    <div @blur="handleBlur">
+    <div>
       <div class="guess">
         <input
           type="text"
@@ -15,9 +15,11 @@ import {ref, computed} from 'vue'
           placeholder="Type here..."
           @input="handleInput"
           autocomplete="off"
+          @click="seeSuggestions"
+          @blur="handleBlur"
         >
         <ul
-          v-if="searchCharacters.length"
+          v-if="suggestionsVisible"
         >
           <li
               v-for="character in searchCharacters"
@@ -57,7 +59,8 @@ import {ref, computed} from 'vue'
       selectCharacter,
       selectedCharacter,
       suggestionLimitation : 5,
-      alreadySelectedCharacters : []
+      alreadySelectedCharacters : [],
+      suggestionsVisible: false
     }
     },
     methods: {
@@ -72,13 +75,19 @@ import {ref, computed} from 'vue'
       },
       setSuggestions: async function(){
         this.searchCharacters = [];
-        if(this.searchTerm){
-          let characterSuggestion = await getCharactersSuggestions(this.searchTerm, this.suggestionLimitation);
-          this.searchCharacters = characterSuggestion;
-        }
+        let characterSuggestion = await getCharactersSuggestions(this.searchTerm, this.suggestionLimitation);
+        this.searchCharacters = characterSuggestion;
       },
       handleBlur: function(){
-        this.searchCharacters = []
+        const debounceTime = 300;
+        this.debouncer = setTimeout(() => {
+          this.suggestionsVisible = false;
+          console.log("hide")
+        }, debounceTime);
+      },
+      seeSuggestions: function(){
+        this.suggestionsVisible = true;
+        console.log("see")
       }
     }
   }
