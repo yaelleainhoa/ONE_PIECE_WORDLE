@@ -5,6 +5,7 @@ import ResearchCharacter from '@/components/ResearchCharacter.vue'
 import ChooseDifficulty from '@/components/ChooseDifficulty.vue'
 import Header from '@/components/Header.vue'
 import CorrectAnswer from '@/components/CorrectAnswer.vue'
+import Loader from '@/components/Loader.vue'
 import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/api/opAPI.js'
 
 </script>
@@ -14,6 +15,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
   </Header>
   <ChooseDifficulty v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
   <ResearchCharacter v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
+  <Loader v-if="loading"></Loader>
   <CorrectAnswer v-if="isAnswerCorrect" :image="characterToGuess.image" :name="characterToGuess.values" :isCharacterSame="isCharacterSame"></CorrectAnswer>
   <div class="characters">
     <CharacterLine v-on:checkAnswer="checkAnswer" v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
@@ -32,7 +34,8 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
       ResearchCharacter,
       ChooseDifficulty,
       Header,
-      CorrectAnswer
+      CorrectAnswer,
+      Loader
       },
     data() {
       return {
@@ -40,7 +43,8 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
         currentDifficulty: 10,
         characterToGuess : [],
         isAnswerCorrect : false,
-        isCharacterSame :false
+        isCharacterSame :false,
+        loading: false
       }
     },
     created: function(){
@@ -55,8 +59,10 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
     methods: {
       addCharacter: async function(id)
       {
+        this.loading = true
         let characterAttributes = await getCharacterAttributesById(id)
         this.charactersLinesList.push(characterAttributes)
+        this.loading = false
       },
       selectDifficulty: function(difficulty)
       {
@@ -74,6 +80,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
       checkAnswer: function()
       {
         this.isAnswerCorrect = true
+        console.log("character added : ", [this.charactersLinesList.length - 1], " and : ", this.characterToGuess)
         if(this.charactersLinesList[this.charactersLinesList.length - 1].id == this.characterToGuess.id) this.isCharacterSame = true;
         else this.isCharacterSame = false
         console.log(this.characterToGuess)
