@@ -58,7 +58,7 @@ const getCharacterAttributes = async function(data)
 {
     let characterAttributes = []
     let attributes = ["hair_color", "sex", "first_apparition", "health", "weapon"]
-    let classAttributes = ["groups", "subgroups", "devilFruits", "main_flag", "flags", "hakis"]
+    let classAttributes = ["groups", "subgroups", "devilFruits", "main_flag", "flags", "hakis", "seas", "races"]
 
     characterAttributes.push({"name":"character", "values": data.names[0], "image":data.image})
 
