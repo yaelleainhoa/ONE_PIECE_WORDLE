@@ -25,7 +25,7 @@ defineProps({
     <img alt="Character face" v-bind:src=image />
   </div>
   <div v-else class="case fullText" :class="[isCaseCorrect == -1 ? 'false' : isCaseCorrect == 1 ? 'correct' : 'partial']">
-    <p :title=value>{{ value }}</p>
+    <p :title=full_value :class="[textLength < 20 ? 'largestSize' : 'smallestSize']" >{{ value }}</p>
   </div>
 </template>
 
@@ -35,7 +35,9 @@ export default {
   data() {
     return {
       value: "",
-      isCaseCorrect : 0
+      full_value: "",
+      isCaseCorrect : 0,
+      textLength: 0
     }
   },
   created: function()
@@ -48,11 +50,15 @@ export default {
       let caseValues = toRaw(this.values);
       this.isCaseCorrect = compareValues(caseValues, this.column);
       if(Array.isArray(caseValues)){
-        this.value = caseValues.join(", ");
+        this.full_value = caseValues.join(", ");
+        this.value = this.full_value;
       }
       else{
-        this.value=caseValues;
+        this.full_value=caseValues;
+        this.value = this.full_value;
       }
+      this.textLength = this.value.length
+      if(this.textLength > 30) this.value = this.full_value.substring(0,30)+"..."
       if(this.isCaseCorrect==1) this.$emit("caseIsCorrect")
     },
   },
@@ -108,10 +114,17 @@ export default {
 
 .fullText p{
   width:100%;
-  padding: 4px;
   max-height:100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.smallestSize {
+  font-size: 11px;
+}
+
+.largestSize {
+  font-size: 16px;
 }
 
 @media (min-width: 1024px) {

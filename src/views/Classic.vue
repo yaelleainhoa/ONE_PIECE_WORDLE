@@ -78,6 +78,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
       {
         this.loading = true
         let characterAttributes = await getCharacterAttributesById(id)
+        console.log("add", characterAttributes)
         this.charactersLinesList.push(characterAttributes)
         this.loading = false
       },

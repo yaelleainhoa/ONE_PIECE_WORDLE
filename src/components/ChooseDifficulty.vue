@@ -15,6 +15,9 @@
   <script>
   export default {
     name: 'ChooseDifficulty',
+    emits :{
+      selectDifficulty: null,
+    },
     data() {
       return {
         choosing:false,
