@@ -21,6 +21,10 @@
   --search-width:200px;
   --search-height:30px;
   --close-height:20px;
+  --loader-width:20px;
+  --standard-margin:10px;
+
+  --list-hover:#ebebeb;
 }
 
 @media (prefers-color-scheme: dark) {

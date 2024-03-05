@@ -47,7 +47,7 @@
 
 .option:hover{
     cursor:pointer;
-    background-color: var(--color-border-hover);
+    font-weight: bold;
 }
 
 @media (min-width: 1024px) {

@@ -1,12 +1,19 @@
 <script setup>
 
 import {getCharactersSuggestions} from '@/services/api/opAPI.js'
-import {ref, computed} from 'vue'
+import Loader from '@/components/Loader.vue'
+import {ref} from 'vue'
+
+defineProps({
+  loading: {
+    default: true
+  },
+})
 
 </script>
 
 <template>
-    <div>
+    <div class="ResearchCharacter">
       <div class="guess">
         <input
           type="text"
@@ -30,6 +37,7 @@ import {ref, computed} from 'vue'
           </li>
         </ul>
       </div>
+      <Loader :loading></Loader>
     </div>
   </template>
 
@@ -39,6 +47,9 @@ import {ref, computed} from 'vue'
     // created: function(){
     //   this.setSuggestions();   
     // },
+    components: {
+      Loader
+    },
     data() {
     let searchTerm = ref('')
     let selectedCharacter = ref('')
@@ -82,12 +93,10 @@ import {ref, computed} from 'vue'
         const debounceTime = 300;
         this.debouncer = setTimeout(() => {
           this.suggestionsVisible = false;
-          console.log("hide")
         }, debounceTime);
       },
       seeSuggestions: function(){
         this.suggestionsVisible = true;
-        console.log("see")
       }
     }
   }
@@ -98,7 +107,6 @@ import {ref, computed} from 'vue'
 .guess
 {
     display: flex;
-    flex-direction: column;
     align-items: center;
 }
 
@@ -126,7 +134,14 @@ li{
 
 li:hover{
   cursor:pointer;
-  background-color: var(--color-border-hover);
+  background-color: var(--list-hover);
+}
+
+.ResearchCharacter{
+  display: flex;
+  margin: auto;
+  transform: translate(15px);
+  /* not clean, see later */
 }
 
 @media (min-width: 1024px) {

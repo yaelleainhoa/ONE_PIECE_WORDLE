@@ -9,7 +9,7 @@
 }
 
 button{
-  margin: 10px;
+  margin: 20px 10px;
   background-color: var(--color-border);
   border:none;
   padding: 5px 10px;
@@ -21,6 +21,13 @@ button:hover{
   cursor:pointer;
   background-color: var(--color-border-hover);
 }
+
+button:disabled,
+  button[disabled] {
+      background-color: grey;
+      color: white;
+      cursor: not-allowed;
+  }
 
 #appContent
 {
@@ -39,9 +46,10 @@ button:hover{
   flex-direction: column;
   align-content: center;
   justify-content: center;
-  width: 60vw;
-  height: 80vh;
-  margin: 10vh 20vw;
+  width: 15vw;
+  height: 30vh;
+  margin: 5vh 5vw;
+  z-index: 5;
 }
 
 .close {
@@ -83,6 +91,15 @@ button:hover{
 .partial{
   background-color: var(--color-partial);
 }
+
+@keyframes appear {
+  from {
+      opacity:0;
+  }
+  to {
+      opacity: 1; 
+  }
+  }
 
 @media (min-width: 1024px) {
 }

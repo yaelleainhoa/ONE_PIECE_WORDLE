@@ -39,9 +39,12 @@ export default {
         });
       },
 
-      addCorrectCase() {
+      addCorrectCase :function() {
         this.correctCasesNb++;
-        if(this.correctCasesNb == this.characterAttributes.length) this.$emit("checkAnswer")
+        if(this.correctCasesNb == this.characterAttributes.length)
+        {
+          this.$emit("checkAnswer")
+        }
       }
     }
 }

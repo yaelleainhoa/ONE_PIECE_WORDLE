@@ -6,24 +6,28 @@ defineProps({
         default: "",
         type: String
     },
-    name:{
+    names:{
         default : [],
         type: Array
     },
     isCharacterSame:
     {
         default:false,
+    },
+    isAnswerCorrect:
+    {
+        default: false
     }
 })
 </script>
 
 <template>
-    <div class="correctAnswer">
-        <p>{{ victoryText }}</p>
+    <div class="correctAnswer" :class="[isAnswerCorrect == true ? 'correct' : 'false']">
+        <p>{{ endgameText }}</p>
         <div class="image">
             <img alt="Correct character" v-bind:src=image>
         </div>
-        <h2>{{ name }}</h2>
+        <h2>{{characterName }}</h2>
     </div>
 </template>
 
@@ -35,17 +39,21 @@ export default {
         AnswerEnum : {
             SameAttributes : "Good guess!! You found a good character, but the one we had in mind was",
             SameCharacter : 'Good guess!! You found the good character',
+            GaveUp: "Too bad... The character we had in mind was"
         },
-        victoryText : ""
+        endgameText : "",
+        characterName : ""
     }
   },
   created: function()
   {
-    this.victoryText = this.isCharacterSame ? this.AnswerEnum.SameCharacter : this.AnswerEnum.SameAttributes
-    console.log("img =",this.image)
-  },
-  methods:
-  {
+    this.endgameText = this.isAnswerCorrect ? this.isCharacterSame ? this.AnswerEnum.SameCharacter : this.AnswerEnum.SameAttributes : this.AnswerEnum.GaveUp
+    if(Array.isArray(this.names)){
+        this.characterName = this.names.join(", ");
+      }
+      else{
+        this.characterName=this.names;
+      }
   },
 }
 </script>
@@ -56,11 +64,11 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: var(--color-true);
     width:fit-content;
     margin:40px auto;
     border:solid;
     border-radius: 5px;
+    animation: appear 1s ease-in-out;
 }
 
 .image{

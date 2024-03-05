@@ -1,4 +1,21 @@
 let currentCharacterToGuess = [];
+const attributesList = [
+    {"database_name": "names", "full_name":"Name", "type": "simple_attribute"},
+    {"database_name": "hair_color", "full_name":"Hair Color", "type": "simple_attribute"},
+    {"database_name": "sex", "full_name":"Gender", "type": "simple_attribute"},
+    {"database_name": "races", "full_name":"Race", "type": "foreign_attribute"},
+    {"database_name": "groups", "full_name":"Group", "type": "foreign_attribute"},
+    {"database_name": "subgroups", "full_name":"Position", "type": "foreign_attribute"},
+    {"database_name": "main_flag", "full_name":"Main crew", "type": "foreign_attribute"},
+    {"database_name": "flags", "full_name":"Crews", "type": "foreign_attribute"},
+    {"database_name": "devilFruits", "full_name":"Devil Fruit", "type": "foreign_attribute"},
+    {"database_name": "hakis", "full_name":"Haki", "type": "foreign_attribute"},
+    {"database_name": "weapon", "full_name":"Weapon", "type": "simple_attribute"},
+    {"database_name": "first_apparition", "full_name":"First apparition", "type": "simple_attribute"},
+    {"database_name": "seas", "full_name":"Sea hometown", "type": "foreign_attribute"},
+    {"database_name": "health", "full_name":"Health", "type": "simple_attribute"},
+
+];
 
 const hasImage = function(data){
     return data.image ? true: false;
@@ -10,13 +27,13 @@ const getAttribute = function(data, attribute){
         data.forEach((currentData) => {
             values.push(currentData.name)
         });
-        return {"name":attribute, "values": values, "image":""};
+        return {"name":attribute, "values": values, "image":"", "full_name":data.full_name};
     }
-    return hasImage(data) ? {"name":attribute, "values":data.name, "image": data.image} : {"values": data.name, "image":""};
+    return hasImage(data) ? {"name":attribute, "values":data.name, "image": data.image, "full_name":data.full_name} : {"name": attribute, "values": data.name, "image":"", "full_name":data.full_name};
 }
 
 const getPath = async function(path){
-    const response = await fetch("https://127.0.0.1:8007"+path)
+    const response = await fetch("https://127.0.0.1:8001"+path)
     if (response.status == 200)
     {
         const data = await response.json()
@@ -31,9 +48,9 @@ const getPaths = async function(paths){
     if(Array.isArray(paths)){
         let data =[]
         let currentData = []
-        for (const index in paths) 
+        for (const i in paths) 
         {
-            currentData = await getPath(paths[index]);
+            currentData = await getPath(paths[i]);
             data.push(currentData);
         }
         return data;
@@ -50,34 +67,34 @@ const addAttribute = async function(characterAttributes, data, attribute)
         characterAttributes.push(attributes)
     }
     else{
-        characterAttributes.push({"name":attribute,"values":"None", "image":""})
+        characterAttributes.push({"name":attribute,"values":"None", "image":"", "full_name":data.full_name})
     }
 }
 
 const getCharacterAttributes = async function(data)
 {
     let characterAttributes = []
-    let attributes = ["hair_color", "sex", "first_apparition", "health", "weapon"]
-    let classAttributes = ["groups", "subgroups", "devilFruits", "main_flag", "flags", "hakis", "seas", "races"]
+    characterAttributes.push({"id":data.id, "name":"character", "values": data.names[0], "image":data.icon, "full_name": "Name"})
 
-    characterAttributes.push({"name":"character", "values": data.names[0], "image":data.image})
-
-    for (const index in attributes) 
+    
+    for (let i = 1; i < attributesList.length; i++)
     {
-        if(data[attributes[index]]) characterAttributes.push({"name":attributes[index], "values": data[attributes[index]], "image":""})
-        else characterAttributes.push({"name":attributes[index], "values": "None", "image":""})
-    }
+        if(attributesList[i].type == "simple_attribute")
+        {
+            if(data[attributesList[i].database_name]) characterAttributes.push({"name":attributesList[i].database_name, "values": data[attributesList[i].database_name], "image":"", "full_name":attributesList[i].full_name})
+            else characterAttributes.push({"name":attributesList[i], "values": "None", "image":"", "full_name":attributesList[i].full_name})
+        }
+        else{
+            await addAttribute(characterAttributes, data, attributesList[i].database_name)
+        }
 
-    for (const index in classAttributes) 
-    {
-        await addAttribute(characterAttributes, data, classAttributes[index]);
     }
 
     return characterAttributes
 }
 
 const getCharacterAttributesById = async function(characterId){
-    const pathCharacter = "https://127.0.0.1:8007/api/characters/"+characterId;
+    const pathCharacter = "https://127.0.0.1:8001/api/characters/"+characterId;
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {
@@ -95,7 +112,7 @@ async function(difficulty)
 {
     let randomCharacter = await getPath("/api/random-character/"+difficulty)
     currentCharacterToGuess = await getCharacterAttributes(randomCharacter);
-    return currentCharacterToGuess;
+    return {"names" : randomCharacter.names, "id":randomCharacter.id, "image": randomCharacter.icon};
 }
 
 function arraysHaveCommonElements(arr1, arr2) {
@@ -107,7 +124,7 @@ function arraysHaveCommonElements(arr1, arr2) {
     }
     const sortedArr1 = arr1.slice().sort();
     const sortedArr2 = arr2.slice().sort();
-    return sortedArr1.every((value, index) => value === sortedArr2[index]) && sortedArr1.length === sortedArr2.length ? 1 : arr1.some(item => arr2.includes(item)) ? 0 : -1;
+    return sortedArr1.every((value, i) => value === sortedArr2[i]) && sortedArr1.length === sortedArr2.length ? 1 : arr1.some(item => arr2.includes(item)) ? 0 : -1;
 }
 
 const compareValues =
@@ -117,7 +134,7 @@ const compareValues =
 }
 
 const getCharacters = async function(){
-    const pathCharacter = "https://127.0.0.1:8007/api/characters?page=1";
+    const pathCharacter = "https://127.0.0.1:8001/api/characters?page=1";
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {
@@ -130,7 +147,7 @@ const getCharacters = async function(){
 }
 
 const getCharactersSearch = async function(search, nb){
-    const pathCharacter = search=="" ? "https://127.0.0.1:8007/api/characters?page=1" : "https://127.0.0.1:8007/api/characters?names[]="+search;
+    const pathCharacter = search=="" ? "https://127.0.0.1:8001/api/characters?page=1" : "https://127.0.0.1:8001/api/characters?names[]="+search;
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {
@@ -148,9 +165,9 @@ const getCharactersSuggestions = async function(search, nb)
     let charactersSuggestionsAllAttributes = await getCharactersSearch(search, nb);
     if (charactersSuggestionsAllAttributes == []) return []
     let charactersSuggestions = []
-    for (const index in charactersSuggestionsAllAttributes)
+    for (const i in charactersSuggestionsAllAttributes)
     {
-        charactersSuggestions.push({"id":charactersSuggestionsAllAttributes[index].id, "name":charactersSuggestionsAllAttributes[index].names[0]});
+        charactersSuggestions.push({"id":charactersSuggestionsAllAttributes[i].id, "name":charactersSuggestionsAllAttributes[i].names[0]});
     }
     return charactersSuggestions;
 }
@@ -159,5 +176,6 @@ export {
     compareValues,
     getCharactersSuggestions,
     getCharacterAttributesById,
-    setRandomCharacterToGuess
+    setRandomCharacterToGuess,
+    attributesList
     }

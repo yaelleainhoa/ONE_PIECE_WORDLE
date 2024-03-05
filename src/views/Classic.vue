@@ -5,18 +5,34 @@ import ResearchCharacter from '@/components/ResearchCharacter.vue'
 import ChooseDifficulty from '@/components/ChooseDifficulty.vue'
 import Header from '@/components/Header.vue'
 import CorrectAnswer from '@/components/CorrectAnswer.vue'
-import Loader from '@/components/Loader.vue'
-import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/api/opAPI.js'
+import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} from '@/services/api/opAPI.js'
 
 </script>
 
 <template>
   <Header>
   </Header>
-  <ChooseDifficulty v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
-  <ResearchCharacter v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
-  <Loader v-if="loading"></Loader>
-  <CorrectAnswer v-if="isAnswerCorrect" :image="characterToGuess.image" :name="characterToGuess.values" :isCharacterSame="isCharacterSame"></CorrectAnswer>
+  <div class="options">
+    <ChooseDifficulty v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
+    <button @click="setRandomCharacter" :disabled="loading">Play again</button>
+    <button @click="showAnswer" :disabled="loading">Give up</button>
+  </div>
+
+  <ResearchCharacter :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
+  <CorrectAnswer v-if="showingAnswer" :image="characterToGuess.image" :names="characterToGuess.names" :isCharacterSame="isCharacterSame" :isAnswerCorrect="isAnswerCorrect"></CorrectAnswer>
+  <div class="attributesList">
+    <div class="flex">
+      <div class="attributeName" v-for="attribute in attributesFullNameList"> 
+        <p>{{ attribute.full_name }}</p>
+      </div>
+    </div>
+    <div class="flex">
+      <div v-for="attribute in attributesFullNameList"> 
+        <div class="separator"></div>
+      </div>
+    </div>
+
+  </div>
   <div class="characters">
     <CharacterLine v-on:checkAnswer="checkAnswer" v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
   </div>
@@ -34,8 +50,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
       ResearchCharacter,
       ChooseDifficulty,
       Header,
-      CorrectAnswer,
-      Loader
+      CorrectAnswer
       },
     data() {
       return {
@@ -44,11 +59,13 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
         characterToGuess : [],
         isAnswerCorrect : false,
         isCharacterSame :false,
-        loading: false
+        showingAnswer: false,
+        loading: false,
+        attributesFullNameList : attributesList
       }
     },
     created: function(){
-      this.setRandomCharacter();   
+      this.setRandomCharacter();
     },
     computed: {
     mainCharacter: function(){
@@ -72,18 +89,23 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
       setRandomCharacter: async function()
       {
         this.charactersLinesList = [];
+        this.showingAnswer = false
         this.isAnswerCorrect = false;
         this.isCharacterSame = false
+        this.loading = true
         this.characterToGuess = await setRandomCharacterToGuess(this.currentDifficulty)
-        this.characterToGuess = this.characterToGuess[0]
+        this.loading = false
+      },
+      showAnswer: function()
+      {
+        if(this.charactersLinesList.length != 0 && this.charactersLinesList[this.charactersLinesList.length - 1][0].id == this.characterToGuess.id) this.isCharacterSame = true;
+        else this.isCharacterSame = false
+        this.showingAnswer = true;
       },
       checkAnswer: function()
       {
         this.isAnswerCorrect = true
-        console.log("character added : ", [this.charactersLinesList.length - 1], " and : ", this.characterToGuess)
-        if(this.charactersLinesList[this.charactersLinesList.length - 1].id == this.characterToGuess.id) this.isCharacterSame = true;
-        else this.isCharacterSame = false
-        console.log(this.characterToGuess)
+        this.showAnswer()
       }
 
     }
@@ -92,13 +114,10 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
 
 <style scoped>
 
-#guesser{
-  margin: 20px 0px;
-}
 .characters{
   display: flex;
   flex-direction: column-reverse;
-  align-items: center;
+  margin: auto;
 }
 
 .logo {
@@ -106,29 +125,40 @@ import {setRandomCharacterToGuess, getCharacterAttributesById} from '@/services/
   margin: 0 auto 2rem;
 }
 
-nav {
-  width: 100%;
-  font-size: 12px;
+.attributesList{
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+}
+
+.attributeName{
+  width: var(--case-width);
+  margin: 2px;
+  display: flex;
+  align-items: center;
   text-align: center;
-  margin-top: 2rem;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
+.attributeName p{
+  width:100%;
 }
 
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
+.separator{
+  content:"";
+  width : 100%;
+  height:2px;
+  background-color: white;
+  width: var(--case-width);
+  margin: 2px;
 }
 
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
+.flex{
+  display: flex;
 }
 
-nav a:first-of-type {
-  border: 0;
+.options{
+  display: flex;
+  justify-content: center;
 }
 
 @media (min-width: 1024px) {
