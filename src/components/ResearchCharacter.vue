@@ -110,9 +110,7 @@ defineProps({
         this.suggestionsVisible = true;
       },
       resetResearch: function(){
-        console.log(this.alreadySelectedCharacters)
         this.alreadySelectedCharacters = []
-        console.log(this.alreadySelectedCharacters)
       }
     }
   }

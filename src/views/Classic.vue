@@ -97,6 +97,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
         this.loading = true
         this.reset = true
         this.characterToGuess = await setRandomCharacterToGuess(this.currentDifficulty)
+        console.log("char to guess : ", this.characterToGuess)
         this.loading = false
       },
       showAnswer: function()

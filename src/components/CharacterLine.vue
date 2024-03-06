@@ -43,7 +43,9 @@ export default {
         this.correctCasesNb++;
         if(this.correctCasesNb == this.characterAttributes.length)
         {
-          this.$emit("checkAnswer")
+          setTimeout(() => {
+            this.$emit("checkAnswer")
+          }, this.characterAttributes.length * 400)  
         }
       }
     }
