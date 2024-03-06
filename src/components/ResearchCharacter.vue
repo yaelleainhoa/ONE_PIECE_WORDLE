@@ -8,6 +8,9 @@ defineProps({
   loading: {
     default: true
   },
+  reset: {
+    default: false
+  }
 })
 
 </script>
@@ -49,6 +52,14 @@ defineProps({
     // },
     components: {
       Loader
+    },
+    watch: {
+      reset: function(reset) {
+        if(reset)
+        {
+          this.resetResearch()
+        }
+      }
     },
     data() {
     let searchTerm = ref('')
@@ -97,6 +108,11 @@ defineProps({
       },
       seeSuggestions: function(){
         this.suggestionsVisible = true;
+      },
+      resetResearch: function(){
+        console.log(this.alreadySelectedCharacters)
+        this.alreadySelectedCharacters = []
+        console.log(this.alreadySelectedCharacters)
       }
     }
   }

@@ -18,7 +18,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
     <button @click="showAnswer" :disabled="loading">Give up</button>
   </div>
 
-  <ResearchCharacter :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
+  <ResearchCharacter :reset="reset" :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
   <CorrectAnswer v-if="showingAnswer" :image="characterToGuess.image" :names="characterToGuess.names" :isCharacterSame="isCharacterSame" :isAnswerCorrect="isAnswerCorrect"></CorrectAnswer>
   <div class="attributesList">
     <div class="flex">
@@ -61,7 +61,8 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
         isCharacterSame :false,
         showingAnswer: false,
         loading: false,
-        attributesFullNameList : attributesList
+        attributesFullNameList : attributesList,
+        reset:false
       }
     },
     created: function(){
@@ -77,8 +78,8 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
       addCharacter: async function(id)
       {
         this.loading = true
+        this.reset = false
         let characterAttributes = await getCharacterAttributesById(id)
-        console.log("add", characterAttributes)
         this.charactersLinesList.push(characterAttributes)
         this.loading = false
       },
@@ -94,6 +95,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
         this.isAnswerCorrect = false;
         this.isCharacterSame = false
         this.loading = true
+        this.reset = true
         this.characterToGuess = await setRandomCharacterToGuess(this.currentDifficulty)
         this.loading = false
       },
@@ -108,7 +110,6 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
         this.isAnswerCorrect = true
         this.showAnswer()
       }
-
     }
   }
 </script>
