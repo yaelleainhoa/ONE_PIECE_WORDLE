@@ -2,7 +2,7 @@
 :root {
   --color-background: #cdeaff;
   --color-border: #6c7e8b;
-  --color-border-hover: #7f94a3;
+  --color-hover: #7f94a3;
 
   --color-heading: #36393c;
   --color-text: #101111;
@@ -25,13 +25,15 @@
   --standard-margin:10px;
 
   --list-hover:#ebebeb;
+
+  --button-width: 130px;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: #181c1e;
     --color-border: #000000;
-    --color-border-hover: #63757d;
+    --color-hover: #63757d;
 
     --color-heading: #839aaa;
     --color-text: #f5fbff;

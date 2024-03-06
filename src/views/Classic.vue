@@ -5,6 +5,7 @@ import ResearchCharacter from '@/components/ResearchCharacter.vue'
 import ChooseDifficulty from '@/components/ChooseDifficulty.vue'
 import Header from '@/components/Header.vue'
 import CorrectAnswer from '@/components/CorrectAnswer.vue'
+import ShowClue from '@/components/ShowClue.vue'
 import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} from '@/services/api/opAPI.js'
 
 </script>
@@ -16,6 +17,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
     <ChooseDifficulty v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
     <button @click="setRandomCharacter" :disabled="loading">Play again</button>
     <button @click="showAnswer" :disabled="loading">Give up</button>
+    <ShowClue :clue="characterToGuess.clue" :disabled="loading"></ShowClue>
   </div>
 
   <ResearchCharacter :reset="reset" :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>

@@ -3,13 +3,13 @@
 </script>
 
 <template>
-    <div>
-        <button @click="changeDifficulty">Change difficulty</button>
+    <div class="chooseDifficulty">
+        <button @click="changeDifficulty" :class="[choosing ? 'bottomWindow' : '']">Change difficulty</button>
+        <div multiple name="levels" class="options" v-if="choosing">
+          <option class="option" @click="chooseDifficulty(index)" v-for="(level, index) in difficulty"  > {{ level }} </option>
+      </div>
     </div>
-    <div multiple name="levels" class="frontWindow" v-if="choosing">
-        <div class="close" @click="changeDifficulty"></div>
-        <option class="option" @click="chooseDifficulty(index)" v-for="(level, index) in difficulty"  > {{ level }} </option>
-    </div>
+
 </template>
 
   <script>
@@ -22,9 +22,9 @@
       return {
         choosing:false,
         difficulty : {
-            "10": 'Difficult',
-            "20": 'Hardcore',
-            "30": 'Impossible'
+            "10": 'Normal',
+            "20": 'Many many characters',
+            "30": 'All characters'
         }
       }
     },
@@ -48,9 +48,27 @@
 
 <style scoped>
 
+.chooseDifficulty{
+  position: relative;
+  display: inline-block;
+}
+
+.options{
+  position: absolute;
+  background-color: rgb(20, 22, 23);
+  width: var(--button-width);
+  z-index: 10;
+}
+
 .option:hover{
     cursor:pointer;
-    font-weight: bold;
+    background-color: var(--color-hover);
+}
+
+button{
+  margin-bottom: 0;
+  margin-left: 0;
+  width: var(--button-width);
 }
 
 @media (min-width: 1024px) {

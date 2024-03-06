@@ -19,7 +19,7 @@ button{
 
 button:hover{
   cursor:pointer;
-  background-color: var(--color-border-hover);
+  background-color: var(--color-hover);
 }
 
 button:disabled,
@@ -28,6 +28,13 @@ button:disabled,
       color: white;
       cursor: not-allowed;
   }
+
+button.bottomWindow{
+  border-radius: 0;
+  border-top-left-radius: 15px 15px;
+  border-top-right-radius: 15px 15px;
+
+}
 
 #appContent
 {
