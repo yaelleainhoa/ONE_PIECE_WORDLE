@@ -120,8 +120,8 @@ defineProps({
 
 .guess
 {
-    display: flex;
-    align-items: center;
+  position: relative;
+  display: inline-block;
 }
 
 #search
@@ -132,12 +132,8 @@ defineProps({
 
 ul{
   position: absolute;
-  padding:0px;
+  padding: 0px;
   list-style-type: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: translate(0, var(--search-height));
 }
 
 li{
