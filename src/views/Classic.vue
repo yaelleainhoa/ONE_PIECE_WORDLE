@@ -6,7 +6,7 @@ import ChooseDifficulty from '@/components/ChooseDifficulty.vue'
 import Header from '@/components/Header.vue'
 import CorrectAnswer from '@/components/CorrectAnswer.vue'
 import ShowClue from '@/components/ShowClue.vue'
-import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} from '@/services/api/opAPI.js'
+import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} from '@/services/api/opAPI.js'
 
 </script>
 
@@ -22,10 +22,13 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
 
   <ResearchCharacter :reset="reset" :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
   <CorrectAnswer v-if="showingAnswer" :image="characterToGuess.image" :names="characterToGuess.names" :isCharacterSame="isCharacterSame" :isAnswerCorrect="isAnswerCorrect"></CorrectAnswer>
-  <div class="attributesList">
+  <div v-if="ready" class="attributesList">
     <div class="flex">
       <div class="attributeName" v-for="attribute in attributesFullNameList"> 
-        <p>{{ attribute.full_name }}</p>
+        <p v-bind:title="attribute.all_possibilities">{{ attribute.full_name }}</p>
+        <div v-bind:title="attribute.all_possibilities" v-if="attribute.all_possibilities" class="information">
+          <img src="../assets/info.png">
+        </div>
       </div>
     </div>
     <div class="flex">
@@ -33,8 +36,8 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
         <div class="separator"></div>
       </div>
     </div>
-
   </div>
+
   <div class="characters">
     <CharacterLine v-on:checkAnswer="checkAnswer" v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
   </div>
@@ -63,12 +66,16 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
         isCharacterSame :false,
         showingAnswer: false,
         loading: false,
-        attributesFullNameList : attributesList,
-        reset:false
+        attributesFullNameList : [],
+        reset:false,
+        ready: false
       }
     },
-    created: function(){
+    created: async function(){
       this.setRandomCharacter();
+      this.attributesFullNameList = await setAttributes();
+      this.ready = true;
+      console.log(this.attributesFullNameList)
     },
     computed: {
     mainCharacter: function(){
@@ -142,6 +149,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
   display: flex;
   align-items: center;
   text-align: center;
+  font-size: 13px;
 }
 
 .attributeName p{
@@ -164,6 +172,21 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, attributesList} f
 .options{
   display: flex;
   justify-content: center;
+}
+
+.information:hover{
+  cursor: pointer;
+}
+
+.information{
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.information img{
+  width: 100%;
 }
 
 @media (min-width: 1024px) {

@@ -14,7 +14,8 @@ button{
   border:none;
   padding: 5px 10px;
   border-radius: 50px;
-  color:var(--color-tooltip-text)
+  color:var(--color-tooltip-text);
+  transition: all 0.2s ease-in-out;
 }
 
 button:hover{

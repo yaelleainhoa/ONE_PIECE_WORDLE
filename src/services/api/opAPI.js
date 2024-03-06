@@ -1,21 +1,34 @@
 let currentCharacterToGuess = [];
-const attributesList = [
-    {"database_name": "names", "full_name":"Name", "type": "simple_attribute"},
-    {"database_name": "hair_color", "full_name":"Hair Color", "type": "simple_attribute"},
-    {"database_name": "sex", "full_name":"Gender", "type": "simple_attribute"},
-    {"database_name": "races", "full_name":"Race", "type": "foreign_attribute"},
-    {"database_name": "groups", "full_name":"Group", "type": "foreign_attribute"},
-    {"database_name": "subgroups", "full_name":"Position", "type": "foreign_attribute"},
-    {"database_name": "main_flag", "full_name":"Main crew", "type": "foreign_attribute"},
-    {"database_name": "flags", "full_name":"Crews", "type": "foreign_attribute"},
-    {"database_name": "devilFruits", "full_name":"Devil Fruit", "type": "foreign_attribute"},
-    {"database_name": "hakis", "full_name":"Haki", "type": "foreign_attribute"},
-    {"database_name": "weapon", "full_name":"Weapon", "type": "simple_attribute"},
-    {"database_name": "first_apparition", "full_name":"First apparition", "type": "simple_attribute"},
-    {"database_name": "seas", "full_name":"Sea hometown", "type": "foreign_attribute"},
-    {"database_name": "health", "full_name":"Health", "type": "simple_attribute"},
+let attributesList = [];
 
-];
+const setAttributes = async function(){
+    attributesList = [
+        {"database_name": "names", "full_name":"Name", "type": "simple_attribute", "all_possibilities":null}, //0
+        {"database_name": "hair_color", "full_name":"Hair Color", "type": "simple_attribute", "all_possibilities":null}, //1
+        {"database_name": "sex", "full_name":"Gender", "type": "simple_attribute", "all_possibilities":null}, //2
+        {"database_name": "races", "full_name":"Race", "type": "foreign_attribute", "all_possibilities":null}, //3
+        {"database_name": "groups", "full_name":"Group", "type": "foreign_attribute", "all_possibilities":null}, //4
+        {"database_name": "subgroups", "full_name":"Subgroup", "type": "foreign_attribute", "all_possibilities":null}, //5
+        {"database_name": "main_flag", "full_name":"Main crew", "type": "foreign_attribute", "all_possibilities":null}, //6
+        {"database_name": "flags", "full_name":"Crews", "type": "foreign_attribute", "all_possibilities":null}, //7
+        {"database_name": "devilFruits", "full_name":"Devil Fruit", "type": "foreign_attribute", "all_possibilities":null}, //8
+        {"database_name": "hakis", "full_name":"Haki", "type": "foreign_attribute", "all_possibilities":null}, //9
+        {"database_name": "weapon", "full_name":"Weapon", "type": "simple_attribute", "all_possibilities":null}, //10
+        {"database_name": "first_apparition", "full_name":"First apparition", "type": "simple_attribute", "all_possibilities":null}, //11
+        {"database_name": "seas", "full_name":"Home sea", "type": "foreign_attribute", "all_possibilities":null}, //12
+        {"database_name": "health", "full_name":"Health", "type": "simple_attribute", "all_possibilities":null}, //13
+    ];
+
+    let currentList = await getPath("/api/races");
+    attributesList[3].all_possibilities = currentList['hydra:member'].map(u => u.name).join(", ");
+    currentList = await getPath("/api/groups");
+    attributesList[4].all_possibilities = currentList['hydra:member'].map(u => u.name).join(", ");
+    currentList = await getPath("/api/subgroups");
+    attributesList[5].all_possibilities = currentList['hydra:member'].map(u => u.name).join(", ");
+    currentList = await getPath("/api/seas");
+    attributesList[12].all_possibilities = currentList['hydra:member'].map(u => u.name).join(", ");
+    return attributesList;
+}
 
 const hasImage = function(data){
     return data.image ? true: false;
@@ -177,5 +190,5 @@ export {
     getCharactersSuggestions,
     getCharacterAttributesById,
     setRandomCharacterToGuess,
-    attributesList
+    setAttributes
     }

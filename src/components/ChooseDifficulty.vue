@@ -23,7 +23,7 @@
         choosing:false,
         difficulty : {
             "10": 'Normal',
-            "20": 'Many many characters',
+            "20": 'Manyy characters',
             "30": 'All characters'
         }
       }
@@ -58,6 +58,7 @@
   background-color: rgb(20, 22, 23);
   width: var(--button-width);
   z-index: 10;
+  animation: appear 0.8s ease-in-out;
 }
 
 .option:hover{

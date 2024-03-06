@@ -65,6 +65,7 @@ button{
   z-index: 10;
   width:var(--button-width);
   color:black;
+  animation: appear 0.8s ease-in-out;
 }
 
 p{
