@@ -65,10 +65,11 @@ export default {
     flex-direction: column;
     align-items: center;
     width:fit-content;
-    margin:40px auto;
-    border:solid;
+    margin:20px auto;
+    /* border:solid; */
     border-radius: 5px;
     animation: appear 1s ease-in-out;
+    z-index: -1;
 }
 
 .image{
@@ -86,7 +87,7 @@ p{
 }
 
 h2{
-    padding:30px;
+    padding:10px;
 }
 
 </style>

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <div id="header">
+    <div id="header" class="shadowElement">
         <img @click="returnHome" alt="Logo home page" src="../assets/logo.png" />
     </div>
 </template>

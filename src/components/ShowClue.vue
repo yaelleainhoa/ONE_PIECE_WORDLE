@@ -26,6 +26,14 @@ defineProps({
     name: 'ShowClue',
     emits :{
     },
+    watch: {
+      clue: function(clue) {
+        if(clue)
+        {
+          this.changeClue()
+        }
+      }
+    },
     data() {
       return {
         showingClue:false,
@@ -33,7 +41,8 @@ defineProps({
       }
     },
     mounted: function(){
-      this.currentClue = this.clue ? "This character appears in the arc "+this.clue : "There is no clue yet..."
+      console.log(this.clue)
+      this.currentClue = this.clue != null ? "This character appears in the arc "+this.clue : "There is no clue yet..."
     },
     computed: {
   },
@@ -41,6 +50,10 @@ defineProps({
         showClue()
         {
             this.showingClue=!this.showingClue;
+        },
+        changeClue()
+        {
+          this.currentClue = this.clue != null ? "This character appears in the arc "+this.clue : "There is no clue yet..."
         }
     }
   }
@@ -60,16 +73,17 @@ button{
 }
 
 .clue{
-  background-color: aliceblue;
+  background-color: rgb(20, 22, 23);
   position: absolute;
   z-index: 10;
-  width:var(--button-width);
-  color:black;
+  width: var(--button-width);
+  color: white;
   animation: appear 0.8s ease-in-out;
+  padding: 10px;
 }
 
 p{
-  font-size: 12px;
+  font-size: 14px;
 }
 
 @media (min-width: 1024px) {

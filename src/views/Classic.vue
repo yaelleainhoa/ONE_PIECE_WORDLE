@@ -13,22 +13,22 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} fr
 <template>
   <Header>
   </Header>
-  <div class="options">
-    <ChooseDifficulty v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
-    <button @click="setRandomCharacter" :disabled="loading">Play again</button>
-    <button @click="showAnswer" :disabled="loading">Give up</button>
-    <ShowClue :clue="characterToGuess.clue" :disabled="loading"></ShowClue>
+  <div class="options shadowElement">
+    <ChooseDifficulty class="option" v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
+    <button class="option" @click="setRandomCharacter" :disabled="loading">Play again</button>
+    <button class="option" @click="showAnswer" :disabled="loading">Give up</button>
+    <ShowClue class="option" :clue="characterToGuess.clue" :disabled="loading"></ShowClue>
   </div>
 
-  <ResearchCharacter :reset="reset" :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
-  <CorrectAnswer v-if="showingAnswer" :image="characterToGuess.image" :names="characterToGuess.names" :isCharacterSame="isCharacterSame" :isAnswerCorrect="isAnswerCorrect"></CorrectAnswer>
+  <ResearchCharacter class="shadowElement" :reset="reset" :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
+  <CorrectAnswer class="shadowElement" v-if="showingAnswer" :image="characterToGuess.image" :names="characterToGuess.names" :isCharacterSame="isCharacterSame" :isAnswerCorrect="isAnswerCorrect"></CorrectAnswer>
   <div v-if="ready" class="attributesList">
     <div class="flex">
       <div class="attributeName" v-for="attribute in attributesFullNameList"> 
-        <p v-bind:title="attribute.all_possibilities">{{ attribute.full_name }}</p>
         <div v-bind:title="attribute.all_possibilities" v-if="attribute.all_possibilities" class="information">
           <img src="../assets/info.png">
         </div>
+        <p v-bind:title="attribute.all_possibilities">{{ attribute.full_name }}</p>
       </div>
     </div>
     <div class="flex">
@@ -106,7 +106,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} fr
         this.loading = true
         this.reset = true
         this.characterToGuess = await setRandomCharacterToGuess(this.currentDifficulty)
-        console.log("char to guess : ", this.characterToGuess)
+        console.log("clue : ", this.characterToGuess.clue)
         this.loading = false
       },
       showAnswer: function()
@@ -145,11 +145,13 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} fr
 
 .attributeName{
   width: var(--case-width);
-  margin: 2px;
+  margin: 4px;
   display: flex;
   align-items: center;
   text-align: center;
-  font-size: 13px;
+  font-size: 15px;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .attributeName p{
@@ -162,7 +164,7 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} fr
   height:2px;
   background-color: white;
   width: var(--case-width);
-  margin: 2px;
+  margin: 4px;
 }
 
 .flex{
@@ -172,7 +174,13 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} fr
 .options{
   display: flex;
   justify-content: center;
+  margin: auto;
+  margin-bottom: 3em;
 }
+
+.option{
+    margin: 10px;
+  }
 
 .information:hover{
   cursor: pointer;
@@ -189,15 +197,23 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} fr
   width: 100%;
 }
 
-@media (min-width: 1024px) {
+@media (max-width: 1024px) {
 
-  nav {
+  /* nav {
     text-align: left;
     margin-left: -1rem;
     font-size: 1rem;
 
     padding: 1rem 0;
     margin-top: 1rem;
+  } */
+
+  .options{
+    flex-direction: column;;
+  }
+
+  button{
+    width: var(--button-width);
   }
 }
 </style>

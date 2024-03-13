@@ -51,11 +51,13 @@
 .chooseDifficulty{
   position: relative;
   display: inline-block;
+  /* border-top-left-radius: 5px 5px;
+  border-top-right-radius: 5px 5px; */
 }
 
 .options{
   position: absolute;
-  background-color: rgb(20, 22, 23);
+  background-color: var(--list-color);
   width: var(--button-width);
   z-index: 10;
   animation: appear 0.8s ease-in-out;
@@ -63,7 +65,7 @@
 
 .option:hover{
     cursor:pointer;
-    background-color: var(--color-hover);
+    background-color: var(--list-hover);
 }
 
 button{

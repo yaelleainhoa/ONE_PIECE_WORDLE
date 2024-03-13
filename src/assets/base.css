@@ -1,21 +1,17 @@
 /* semantic color variables for this project */
 :root {
-  --color-background: #cdeaff;
-  --color-border: #6c7e8b;
-  --color-hover: #7f94a3;
+  --color-button: #96bba4;
+  --button-hover:#db5134;
+  --color-button-back: #42778f;
+  --color-button-back-hover: #9d301a;
 
-  --color-heading: #36393c;
-  --color-text: #101111;
+  --color-text: #ffffff;
 
-  --section-gap: 160px;
+  /* --section-gap: 160px; */
 
-  --color-case: #fcf0be;
-  --color-false: #c63333;
-  --color-true: #57af3f;
-  --color-partial: #edb02c;
-
-  --color-tooltip-background: #ffffff;
-  --color-tooltip-text: #101012;
+  --color-false: #db5134;
+  --color-true: #2b9c56;
+  --color-partial: #cd9908;
 
   --case-width:80px;
   --search-width:200px;
@@ -24,28 +20,10 @@
   --loader-width:20px;
   --standard-margin:10px;
 
-  --list-hover:#ebebeb;
+  --list-color:rgb(20, 22, 23);
+  --list-hover:#db5134;
 
-  --button-width: 130px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: #181c1e;
-    --color-border: #000000;
-    --color-hover: #63757d;
-
-    --color-heading: #839aaa;
-    --color-text: #f5fbff;
-
-    --color-case: #536168;
-    --color-false: #a12929;
-    --color-true: #479112;
-    --color-partial: #e3980c;
-
-    --color-tooltip-background: #717273;
-    --color-tooltip-text: #ffffff;
-  }
+  --button-width: 200px;
 }
 
 *,
@@ -59,7 +37,6 @@
 body {
   min-height: 100vh;
   color: var(--color-text);
-  background: var(--color-background);
   transition:
     color 0.5s,
     background-color 0.5s;
@@ -81,8 +58,12 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /* background-image: url(background.jpg); */
-  background-attachment: fixed;
-  background-position: center;
-  background-size: 3000px 1000px;
+  background:
+                linear-gradient(0deg,
+                    rgb(0, 0, 0),
+                    rgba(85, 4, 4, 0.208)) no-repeat 50% fixed,
+                      url(background.jpg) no-repeat 50% fixed;
+    background-size: auto;
+    background-size: cover;
 }
+

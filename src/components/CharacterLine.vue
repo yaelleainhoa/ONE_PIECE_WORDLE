@@ -61,7 +61,7 @@ export default {
   }
 .characterLine{
   display: flex;
-  margin:5px;
+  margin: 5px 0px;
   width: fit-content;
 }
 

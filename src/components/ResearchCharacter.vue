@@ -134,12 +134,13 @@ ul{
   position: absolute;
   padding: 0px;
   list-style-type: none;
+  z-index: 100;
 }
 
 li{
   width: var(--search-width);
-  background-color: white;
-  color:black;
+  background-color: var(--list-color);
+  color:white;
 }
 
 li:hover{

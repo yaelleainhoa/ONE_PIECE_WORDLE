@@ -18,7 +18,7 @@ defineProps({
 </script>
 
 <template>
-  <div v-if="image" class="case">
+  <div v-if="image" class="case shadowElement">
     <div class="hoverTextImg">
       <p>{{value}}</p>
     </div>
@@ -69,12 +69,10 @@ export default {
 .case{
   width:var(--case-width);
   height: var(--case-width);
-  border:solid;
-  border-color : var(--color-border);
-  border-width:2px;
   overflow: hidden;
   border-radius: 5px;
-  border-width: 2px;
+  margin:2px;
+  filter: drop-shadow(0 10px 0.45rem rgba(0, 0, 0, 0.387));
 }
 .case img
 {
