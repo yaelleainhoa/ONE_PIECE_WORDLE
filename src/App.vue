@@ -11,4 +11,8 @@
 
 <style scoped>
 
+#appContent{
+  height:100vh;
+}
+
 </style>
