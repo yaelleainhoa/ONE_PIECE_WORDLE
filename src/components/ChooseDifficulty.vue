@@ -51,8 +51,8 @@
 .chooseDifficulty{
   position: relative;
   display: inline-block;
-  /* border-top-left-radius: 5px 5px;
-  border-top-right-radius: 5px 5px; */
+  border-top-left-radius: 5px 5px;
+  border-top-right-radius: 5px 5px;
 }
 
 .options{
