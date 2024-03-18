@@ -29,15 +29,20 @@
 #header
 {
     height:200px;
+    width:fit-content;
+    margin:auto;
+    transition: transform 0.2s ease-in-out;
 }
 
 #header:hover{
-    cursor:pointer
+    cursor:pointer;
+    transform: scale(1.1);
 }
 
 img{
     height:100%
 }
+
 
 @media (min-width: 1024px) {
 

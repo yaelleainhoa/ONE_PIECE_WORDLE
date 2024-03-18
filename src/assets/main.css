@@ -18,7 +18,7 @@ button {
   position: relative;
   border: 0;
   background: var(--color-button);
-  padding: 1em 1.5em;
+  padding: 0.7em;
   border-radius: 5px;
   font-size: 16px;
   transform-style: preserve-3d;
@@ -27,6 +27,7 @@ button {
   background 0.3s cubic-bezier(0,0,0.58,1);
   cursor: pointer;
   color:white;
+  width: var(--button-width);
 }
 
 button:before {
@@ -81,49 +82,6 @@ button.bottomWindow{
   flex-direction: column;
   width: 100vw;
   position: relative;
-}
-
-.frontWindow
-{
-  background-color: white;
-  color: black;
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-content: center;
-  justify-content: center;
-  width: 15vw;
-  height: 30vh;
-  margin: 5vh 5vw;
-  z-index: 5;
-}
-
-.close {
-  position: absolute;
-  right: var(--close-height);
-  top: var(--close-height);
-  width: var(--close-height);
-  height: var(--close-height);
-  opacity: 0.3;
-  z-index:100;
-}
-.close:hover {
-  opacity: 1;
-  cursor: pointer; 
-}
-.close:before, .close:after {
-  position: absolute;
-  left: 5px;
-  content: ' ';
-  height: var(--close-height);
-  width: 2px;
-  background-color: #110527;
-}
-.close:before {
-  transform: rotate(45deg);
-}
-.close:after {
-  transform: rotate(-45deg);
 }
 
 .correct{

@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 
 const indexPath = path.resolve(__dirname, '../dist/index.html');
 
-const additionalScriptTag = '<script type="module" src="/ONE_PIECE_WORDLE/src/main.js"></script>';
+const additionalScriptTag = '<script type="module" src="/src/main.js"></script>';
 
 async function updateIndexFile() {
   try {

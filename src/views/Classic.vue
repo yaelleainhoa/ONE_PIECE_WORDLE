@@ -7,17 +7,17 @@ import Header from '@/components/Header.vue'
 import CorrectAnswer from '@/components/CorrectAnswer.vue'
 import ShowClue from '@/components/ShowClue.vue'
 import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} from '@/services/api/opAPI.js'
+import IconButton from '@/components/IconButton.vue'
 
 </script>
 
 <template>
-  <Header>
-  </Header>
+  <Header></Header>
   <div class="options shadowElement">
     <ChooseDifficulty class="option" v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
-    <button class="option" @click="setRandomCharacter" :disabled="loading">Play again</button>
-    <button class="option" @click="showAnswer" :disabled="loading">Give up</button>
+    <IconButton value="New character" image="replay.png" class="option" @click="setRandomCharacter" :disabled="loading"></IconButton>
     <ShowClue class="option" :clue="characterToGuess.clue" :disabled="loading"></ShowClue>
+    <IconButton value="Give up round" image="giveup.png" class="option" @click="showAnswer" :disabled="loading"></IconButton>
   </div>
 
   <ResearchCharacter class="shadowElement" :reset="reset" :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
@@ -55,7 +55,8 @@ import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} fr
       ResearchCharacter,
       ChooseDifficulty,
       Header,
-      CorrectAnswer
+      CorrectAnswer,
+      IconButton
       },
     data() {
       return {

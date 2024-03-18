@@ -6,22 +6,22 @@ import Policy from '@/views/Policy.vue'
 
 const routes = [
   {
-    path: '/ONE_PIECE_WORDLE',
+    path: '',
     name: 'Home',
     component: Home
   },
   {
-    path: '/ONE_PIECE_WORDLE/classic',
+    path: '/classic',
     name: 'Classic',
     component: Classic
   },  {
-    path: '/ONE_PIECE_WORDLE/policy',
+    path: '/policy',
     name: 'Policy',
     component: Policy
   },
   {
     path: '/:pathMatch(.*)*',
-    redirect: to => ({ path: '/ONE_PIECE_WORDLE' }), 
+    redirect: to => ({ path: '' }), 
   }
 ]
 

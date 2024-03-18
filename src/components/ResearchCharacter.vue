@@ -96,7 +96,6 @@ defineProps({
           }, debounceTime);
       },
       setSuggestions: async function(){
-        this.searchCharacters = [];
         let characterSuggestion = await getCharactersSuggestions(this.searchTerm, this.suggestionLimitation);
         this.searchCharacters = characterSuggestion;
       },
@@ -152,7 +151,7 @@ li:hover{
   display: flex;
   margin: auto;
   transform: translate(15px);
-  /* not clean, see later */
+  z-index: 10;
 }
 
 @media (min-width: 1024px) {

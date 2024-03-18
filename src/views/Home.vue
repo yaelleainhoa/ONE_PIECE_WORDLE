@@ -9,7 +9,7 @@ import Header from '@/components/Header.vue';
       <Header></Header>
       <nav class="nav">
         <div class="games">
-          <RouterLink class="shadowElement" to="/ONE_PIECE_WORDLE/classic">
+          <RouterLink class="shadowElement" to="/classic">
             <button>
               <h2>Classic</h2>
               <p>Get clues at every try</p>
@@ -17,7 +17,7 @@ import Header from '@/components/Header.vue';
           </RouterLink>
         </div>
 
-        <RouterLink class="policy shadowElement" to="/ONE_PIECE_WORDLE/policy">
+        <RouterLink class="policy shadowElement" to="/policy">
           Policy
         </RouterLink>
       </nav>
@@ -42,6 +42,11 @@ import Header from '@/components/Header.vue';
 }
 
 #home{
+  height:100vh;
+}
+
+
+#appContent{
   height:100vh;
 }
 

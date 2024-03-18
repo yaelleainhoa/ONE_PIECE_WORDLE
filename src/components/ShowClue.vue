@@ -1,5 +1,7 @@
 <script setup>
 
+import IconButton from '@/components/IconButton.vue'
+
 defineProps({
   clue: {
     default: null
@@ -13,9 +15,9 @@ defineProps({
 
 <template>
     <div class="showClue">
-        <button :disabled="disabled" @click="showClue" :class="[showingClue ? 'bottomWindow' : '']">Give me a clue!</button>
-        <div class="clue" v-if="showingClue">
-          <p> {{currentClue}} </p>
+      <IconButton :disabled="disabled" value="Give me a clue!" image="clue.png" @click="showClue" :class="[showingClue ? 'bottomWindow' : '']"></IconButton>
+      <div class="clue" v-if="showingClue">
+        <p> {{currentClue}} </p>
       </div>
     </div>
 
@@ -24,6 +26,9 @@ defineProps({
   <script>
   export default {
     name: 'ShowClue',
+    components: {
+      IconButton
+      },
     emits :{
     },
     watch: {
