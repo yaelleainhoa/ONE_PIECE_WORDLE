@@ -6,12 +6,16 @@ defineProps({
     default: null,
     type: Array,
   },
+  attributesList: {
+    default:[],
+    type:Array
+  }
 })
 </script>
 
 <template>
   <div class="characterLine">
-    <div v-for="(attribute, index) in characterAttributes" :key="index" class="case-wrapper" :style="{ transitionDelay: `${index * 0.2}s` }">
+    <div v-for="(attribute, index) in characterAttributes" :key="index" class="case-wrapper" v-show="!attributesList[index].hidden">
       <Case v-on:caseIsCorrect="addCorrectCase" :values=attribute.values :image=attribute.image :column=index></Case>
     </div>
   </div>
@@ -32,10 +36,15 @@ export default {
   methods: {
       fadeInCases() {
         const caseWrappers = this.$el.querySelectorAll('.case-wrapper');
+        let visibleCount = 0;
         caseWrappers.forEach((wrapper, index) => {
+          if(!this.attributesList[index].hidden){
+            visibleCount++;
+          }
           setTimeout(() => {
             wrapper.style.opacity = 1;
-          }, index * 200);
+            wrapper.style.transitionDelay = 0;
+          }, visibleCount * 500);
         });
       },
 

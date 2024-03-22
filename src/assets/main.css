@@ -96,6 +96,10 @@ button.bottomWindow{
   background-color: var(--color-partial);
 }
 
+.invisible{
+  opacity: 0;
+}
+
 @keyframes appear {
   from {
       opacity:0;

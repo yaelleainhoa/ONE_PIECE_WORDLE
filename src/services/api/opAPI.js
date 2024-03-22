@@ -3,20 +3,20 @@ let attributesList = [];
 
 const setAttributes = async function(){
     attributesList = [
-        {"database_name": "names", "full_name":"Name", "type": "simple_attribute", "all_possibilities":null}, //0
-        {"database_name": "hair_color", "full_name":"Hair Color", "type": "simple_attribute", "all_possibilities":null}, //1
-        {"database_name": "sex", "full_name":"Gender", "type": "simple_attribute", "all_possibilities":null}, //2
-        {"database_name": "races", "full_name":"Race", "type": "foreign_attribute", "all_possibilities":null}, //3
-        {"database_name": "groups", "full_name":"Group", "type": "foreign_attribute", "all_possibilities":null}, //4
-        {"database_name": "subgroups", "full_name":"Subgroup", "type": "foreign_attribute", "all_possibilities":null}, //5
-        {"database_name": "main_flag", "full_name":"Main crew", "type": "foreign_attribute", "all_possibilities":null}, //6
-        {"database_name": "flags", "full_name":"Crews", "type": "foreign_attribute", "all_possibilities":null}, //7
-        {"database_name": "devilFruits", "full_name":"Devil Fruit", "type": "foreign_attribute", "all_possibilities":null}, //8
-        {"database_name": "hakis", "full_name":"Haki", "type": "foreign_attribute", "all_possibilities":null}, //9
-        {"database_name": "weapon", "full_name":"Weapon", "type": "simple_attribute", "all_possibilities":null}, //10
-        {"database_name": "first_apparition", "full_name":"First apparition", "type": "simple_attribute", "all_possibilities":null}, //11
-        {"database_name": "seas", "full_name":"Home sea", "type": "foreign_attribute", "all_possibilities":null}, //12
-        {"database_name": "health", "full_name":"Health", "type": "simple_attribute", "all_possibilities":null}, //13
+        {"database_name": "names", "full_name":"Name", "type": "simple_attribute", "all_possibilities":null, "hidden":false}, //0
+        {"database_name": "hair_color", "full_name":"Hair Color", "type": "simple_attribute", "all_possibilities":null, "hidden":false}, //1
+        {"database_name": "sex", "full_name":"Gender", "type": "simple_attribute", "all_possibilities":null, "hidden":false}, //2
+        {"database_name": "races", "full_name":"Race", "type": "foreign_attribute", "all_possibilities":null, "hidden":false}, //3
+        {"database_name": "groups", "full_name":"Group", "type": "foreign_attribute", "all_possibilities":null, "hidden":false}, //4
+        {"database_name": "subgroups", "full_name":"Subgroup", "type": "foreign_attribute", "all_possibilities":null, "hidden":false}, //5
+        {"database_name": "main_flag", "full_name":"Main crew", "type": "foreign_attribute", "all_possibilities":null, "hidden":false}, //6
+        {"database_name": "flags", "full_name":"Crews", "type": "foreign_attribute", "all_possibilities":null, "hidden":false}, //7
+        {"database_name": "devilFruits", "full_name":"Devil Fruit", "type": "foreign_attribute", "all_possibilities":null, "hidden":false}, //8
+        {"database_name": "hakis", "full_name":"Haki", "type": "foreign_attribute", "all_possibilities":null, "hidden":false}, //9
+        {"database_name": "weapon", "full_name":"Weapon", "type": "simple_attribute", "all_possibilities":null, "hidden":false}, //10
+        {"database_name": "first_apparition", "full_name":"First apparition", "type": "simple_attribute", "all_possibilities":null, "hidden":false}, //11
+        {"database_name": "seas", "full_name":"Home sea", "type": "foreign_attribute", "all_possibilities":null, "hidden":false}, //12
+        {"database_name": "health", "full_name":"Health", "type": "simple_attribute", "all_possibilities":null, "hidden":false}, //13
     ];
 
     let currentList = await getPath("/api/races");
@@ -46,7 +46,7 @@ const getAttribute = function(data, attribute){
 }
 
 const getPath = async function(path){
-    const response = await fetch("https://opapi.mugidle.com"+path)
+    const response = await fetch("https://127.0.0.1:8000"+path)
     if (response.status == 200)
     {
         const data = await response.json()
@@ -100,14 +100,13 @@ const getCharacterAttributes = async function(data)
         else{
             await addAttribute(characterAttributes, data, attributesList[i].database_name)
         }
-
     }
 
     return characterAttributes
 }
 
 const getCharacterAttributesById = async function(characterId){
-    const pathCharacter = "https://opapi.mugidle.com/api/characters/"+characterId;
+    const pathCharacter = "https://127.0.0.1:8000/api/characters/"+characterId;
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {
@@ -147,7 +146,7 @@ const compareValues =
 }
 
 const getCharacters = async function(){
-    const pathCharacter = "https://opapi.mugidle.com/api/characters?page=1";
+    const pathCharacter = "https://127.0.0.1:8000/api/characters?page=1";
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {
@@ -160,7 +159,7 @@ const getCharacters = async function(){
 }
 
 const getCharactersSearch = async function(search, nb){
-    const pathCharacter = search=="" ? "https://opapi.mugidle.com/api/characters?page=1" : "https://opapi.mugidle.com/api/characters?names[]="+search;
+    const pathCharacter = search=="" ? "https://127.0.0.1:8000/api/characters?page=1" : "https://127.0.0.1:8000/api/characters?names[]="+search;
     const response = await fetch(pathCharacter)
     if (response.status == 200)
     {

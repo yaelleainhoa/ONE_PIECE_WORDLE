@@ -1,6 +1,8 @@
 <script setup>
 
 import IconButton from '@/components/IconButton.vue'
+import icon from '../assets/clue.png'
+
 
 defineProps({
   clue: {
@@ -15,7 +17,7 @@ defineProps({
 
 <template>
     <div class="showClue">
-      <IconButton :disabled="disabled" value="Give me a clue!" image="clue.png" @click="showClue" :class="[showingClue ? 'bottomWindow' : '']"></IconButton>
+      <IconButton :disabled="disabled" value="Give me a clue!" :image="icon" @click="showClue" :class="[showingClue ? 'bottomWindow' : '']"></IconButton>
       <div class="clue" v-if="showingClue">
         <p> {{currentClue}} </p>
       </div>
@@ -42,7 +44,7 @@ defineProps({
     data() {
       return {
         showingClue:false,
-        currentClue:""
+        currentClue:"",
       }
     },
     mounted: function(){
@@ -80,7 +82,6 @@ button{
 .clue{
   background-color: rgb(20, 22, 23);
   position: absolute;
-  z-index: 10;
   width: var(--button-width);
   color: white;
   animation: appear 0.8s ease-in-out;

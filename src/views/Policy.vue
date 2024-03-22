@@ -17,10 +17,19 @@ The website Mugidle utilizes images and information from the One Piece universe,
 
 This site is created for non-profit purposes and is not intended to generate revenue. It aims to provide information and entertainment to One Piece fans. No financial gain is derived from its operation.
 
-If you are the copyright holder of any of the works used on this site and believe that their use constitutes a violation of your rights, please contact us at opdle@gmail.com so that we can resolve the issue promptly.
+If you are the copyright holder of any of the works used on this site and believe that their use constitutes a violation of your rights, please contact us at themugidle@gmail.com so that we can resolve the issue promptly.
 
 Thank you for your understanding.
         </p>
       </div>
     </div>
   </template>
+
+<style scoped>
+
+.policy{
+  width: 80vw;
+  margin: auto;
+}
+
+</style>

@@ -1,7 +1,7 @@
 <script setup>
 defineProps({
   image: {
-    default: "info.png",
+    default: "../assets/info.png",
     type: String,
   },
   value: {
@@ -14,7 +14,7 @@ defineProps({
 <template>
     <button>
         <div class="icon">
-            <img v-bind:src=imgSrc>
+            <img :src="img">
         </div>
         <p>{{value}}</p>
     </button>
@@ -25,7 +25,7 @@ export default {
   name: 'IconButton',
   data() {
     return {
-      imgSrc : "/src/assets/"+this.image
+        img: this.image
     }
   },
 }

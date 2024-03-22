@@ -18,7 +18,7 @@ import Header from '@/components/Header.vue';
         </div>
 
         <RouterLink class="policy shadowElement" to="/policy">
-          Policy
+          Legal Disclaimer: Content Rights
         </RouterLink>
       </nav>
     </div>
@@ -37,8 +37,10 @@ import Header from '@/components/Header.vue';
 
 .policy{
   position: absolute;
-  bottom:20px;
-  color:white;
+  bottom: 12px;
+  color: #fff;
+  width: 100vw;
+  left: 0px;
 }
 
 #home{

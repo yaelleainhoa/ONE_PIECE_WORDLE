@@ -66,10 +66,8 @@ export default {
     align-items: center;
     width:fit-content;
     margin:20px auto;
-    /* border:solid; */
     border-radius: 5px;
     animation: appear 1s ease-in-out;
-    z-index: -1;
 }
 
 .image{

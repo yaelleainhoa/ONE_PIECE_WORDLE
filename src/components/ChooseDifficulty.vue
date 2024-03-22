@@ -1,14 +1,14 @@
 <script setup>
 
 import IconButton from '@/components/IconButton.vue'
-import Case from '@/components/Case.vue'
+import icon from '../assets/difficulty.png'
 
 
 </script>
 
 <template>
     <div class="chooseDifficulty">
-        <IconButton value="Change difficulty" image="difficulty.png" @click="changeDifficulty" :class="[choosing ? 'bottomWindow' : '']"></IconButton>
+        <IconButton value="Change difficulty" :image="icon" @click="changeDifficulty" :class="[choosing ? 'bottomWindow' : '']"></IconButton>
         <div multiple name="levels" class="options" v-if="choosing">
           <option class="option" @click="chooseDifficulty(index)" v-for="(level, index) in difficulty"  > {{ level }} </option>
       </div>
@@ -21,7 +21,6 @@ import Case from '@/components/Case.vue'
     name: 'ChooseDifficulty',
     components: {
       IconButton,
-      Case
     },
     emits :{
       selectDifficulty: null,
@@ -67,7 +66,6 @@ import Case from '@/components/Case.vue'
   position: absolute;
   background-color: var(--list-color);
   width: var(--button-width);
-  z-index: 10;
   animation: appear 0.8s ease-in-out;
 }
 

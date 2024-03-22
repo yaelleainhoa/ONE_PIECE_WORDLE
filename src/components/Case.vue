@@ -19,10 +19,10 @@ defineProps({
 
 <template>
   <div v-if="image" class="case shadowElement">
-    <div class="hoverTextImg">
-      <p>{{value}}</p>
-    </div>
-    <img alt="Character face" v-bind:src=image />
+  <div class="hoverTextImg">
+    <p>{{value}}</p>
+  </div>
+  <img alt="Character face" v-bind:src=image />
   </div>
   <div v-else class="case fullText" :class="[isCaseCorrect == -1 ? 'false' : isCaseCorrect == 1 ? 'correct' : 'partial']">
     <p :title=full_value :class="[textLength < 20 ? 'largestSize' : 'smallestSize']" >{{ value }}</p>

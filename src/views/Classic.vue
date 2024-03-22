@@ -3,11 +3,14 @@
 import CharacterLine from '@/components/CharacterLine.vue'
 import ResearchCharacter from '@/components/ResearchCharacter.vue'
 import ChooseDifficulty from '@/components/ChooseDifficulty.vue'
+import ChooseAttributes from '@/components/ChooseAttributes.vue'
 import Header from '@/components/Header.vue'
 import CorrectAnswer from '@/components/CorrectAnswer.vue'
 import ShowClue from '@/components/ShowClue.vue'
 import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} from '@/services/api/opAPI.js'
 import IconButton from '@/components/IconButton.vue'
+import replay from '../assets/replay.png'
+import giveup from '../assets/giveup.png'
 
 </script>
 
@@ -15,31 +18,32 @@ import IconButton from '@/components/IconButton.vue'
   <Header></Header>
   <div class="options shadowElement">
     <ChooseDifficulty class="option" v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
-    <IconButton value="New character" image="replay.png" class="option" @click="setRandomCharacter" :disabled="loading"></IconButton>
+    <IconButton value="New character" :image="replay" class="option" @click="setRandomCharacter" :disabled="loading"></IconButton>
     <ShowClue class="option" :clue="characterToGuess.clue" :disabled="loading"></ShowClue>
-    <IconButton value="Give up round" image="giveup.png" class="option" @click="showAnswer" :disabled="loading"></IconButton>
+    <IconButton value="Give up round" :image="giveup" class="option" @click="showAnswer" :disabled="loading"></IconButton>
+    <ChooseAttributes :attributesList="attributesFullNameList"></ChooseAttributes>
   </div>
 
   <ResearchCharacter class="shadowElement" :reset="reset" :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
   <CorrectAnswer class="shadowElement" v-if="showingAnswer" :image="characterToGuess.image" :names="characterToGuess.names" :isCharacterSame="isCharacterSame" :isAnswerCorrect="isAnswerCorrect"></CorrectAnswer>
   <div v-if="ready" class="attributesList">
     <div class="flex">
-      <div class="attributeName" v-for="attribute in attributesFullNameList"> 
-        <div v-bind:title="attribute.all_possibilities" v-if="attribute.all_possibilities" class="information">
+      <div class="attributeName" v-for="(attribute, index) in attributesFullNameList" :key="index" v-show="index == 0 || !attributesFullNameList[index-1].hidden"> 
+        <div v-if="attribute.all_possibilities" v-bind:title="attribute.all_possibilities"class="information">
           <img src="../assets/info.png">
         </div>
         <p v-bind:title="attribute.all_possibilities">{{ attribute.full_name }}</p>
       </div>
     </div>
     <div class="flex">
-      <div v-for="attribute in attributesFullNameList"> 
+      <div v-for="(attribute, index) in attributesFullNameList" v-show="index == 0 || !attributesFullNameList[index-1].hidden"> 
         <div class="separator"></div>
       </div>
     </div>
   </div>
 
   <div class="characters">
-    <CharacterLine v-on:checkAnswer="checkAnswer" v-for="character in charactersLinesList" :characterAttributes=character></CharacterLine>
+    <CharacterLine v-on:checkAnswer="checkAnswer" v-for="character in charactersLinesList" :characterAttributes=character :attributesList=attributesFullNameList></CharacterLine>
   </div>
   <!-- <nav>
       <RouterLink to="/">Home</RouterLink>
@@ -54,6 +58,7 @@ import IconButton from '@/components/IconButton.vue'
       CharacterLine,
       ResearchCharacter,
       ChooseDifficulty,
+      ChooseAttributes,
       Header,
       CorrectAnswer,
       IconButton
@@ -69,7 +74,8 @@ import IconButton from '@/components/IconButton.vue'
         loading: false,
         attributesFullNameList : [],
         reset:false,
-        ready: false
+        ready: false,
+        hiddenAttributes : []
       }
     },
     created: async function(){
@@ -120,7 +126,10 @@ import IconButton from '@/components/IconButton.vue'
       {
         this.isAnswerCorrect = true
         this.showAnswer()
-      }
+      },
+      // selectAttributes : function(showedAttributes){
+      //   console.log("classic showed", showedAttributes)
+      // }
     }
   }
 </script>
@@ -177,6 +186,7 @@ import IconButton from '@/components/IconButton.vue'
   justify-content: center;
   margin: auto;
   margin-bottom: 3em;
+  z-index:10;
 }
 
 .option{

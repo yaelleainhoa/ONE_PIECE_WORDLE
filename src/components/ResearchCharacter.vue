@@ -133,7 +133,6 @@ ul{
   position: absolute;
   padding: 0px;
   list-style-type: none;
-  z-index: 100;
 }
 
 li{
@@ -151,7 +150,7 @@ li:hover{
   display: flex;
   margin: auto;
   transform: translate(15px);
-  z-index: 10;
+  z-index: 5;
 }
 
 @media (min-width: 1024px) {
