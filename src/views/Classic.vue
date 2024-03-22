@@ -21,7 +21,7 @@ import giveup from '../assets/giveup.png'
     <IconButton value="New character" :image="replay" class="option" @click="setRandomCharacter" :disabled="loading"></IconButton>
     <ShowClue class="option" :clue="characterToGuess.clue" :disabled="loading"></ShowClue>
     <IconButton value="Give up round" :image="giveup" class="option" @click="showAnswer" :disabled="loading"></IconButton>
-    <ChooseAttributes :attributesList="attributesFullNameList"></ChooseAttributes>
+    <ChooseAttributes :attributesList="attributesFullNameList" :disabled="loading"></ChooseAttributes>
   </div>
 
   <ResearchCharacter class="shadowElement" :reset="reset" :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
@@ -127,9 +127,6 @@ import giveup from '../assets/giveup.png'
         this.isAnswerCorrect = true
         this.showAnswer()
       },
-      // selectAttributes : function(showedAttributes){
-      //   console.log("classic showed", showedAttributes)
-      // }
     }
   }
 </script>

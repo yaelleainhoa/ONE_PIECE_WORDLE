@@ -17,7 +17,7 @@ defineProps({
 
 <template>
     <div class="showClue">
-      <IconButton :disabled="disabled" value="Give me a clue!" :image="icon" @click="showClue" :class="[showingClue ? 'bottomWindow' : '']"></IconButton>
+      <IconButton @blur="handleBlur" :disabled="disabled" value="First appearance" :image="icon" @click="showClue" :class="[showingClue ? 'bottomWindow' : '']"></IconButton>
       <div class="clue" v-if="showingClue">
         <p> {{currentClue}} </p>
       </div>
@@ -61,6 +61,10 @@ defineProps({
         changeClue()
         {
           this.currentClue = this.clue != null ? "This character appears in the arc "+this.clue : "There is no clue yet..."
+        },
+        handleBlur()
+        {
+          this.showClue();
         }
     }
   }
