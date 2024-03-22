@@ -15,7 +15,7 @@ defineProps({
 
 <template>
   <div class="characterLine">
-    <div v-for="(attribute, index) in characterAttributes" :key="index" class="case-wrapper" v-show="!attributesList[index].hidden">
+    <div v-for="(attribute, index) in characterAttributes" :key="index" class="case-wrapper"v-show="index == 0 || !attributesList[index-1].hidden">
       <Case v-on:caseIsCorrect="addCorrectCase" :values=attribute.values :image=attribute.image :column=index></Case>
     </div>
   </div>

@@ -82,7 +82,6 @@ import giveup from '../assets/giveup.png'
       this.setRandomCharacter();
       this.attributesFullNameList = await setAttributes();
       this.ready = true;
-      console.log(this.attributesFullNameList)
     },
     computed: {
     mainCharacter: function(){
@@ -113,7 +112,6 @@ import giveup from '../assets/giveup.png'
         this.loading = true
         this.reset = true
         this.characterToGuess = await setRandomCharacterToGuess(this.currentDifficulty)
-        console.log("clue : ", this.characterToGuess.clue)
         this.loading = false
       },
       showAnswer: function()

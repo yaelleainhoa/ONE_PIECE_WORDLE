@@ -48,7 +48,6 @@ defineProps({
       }
     },
     mounted: function(){
-      console.log(this.clue)
       this.currentClue = this.clue != null ? "This character appears in the arc "+this.clue : "There is no clue yet..."
     },
     computed: {

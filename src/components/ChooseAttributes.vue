@@ -59,11 +59,8 @@ defineProps({
         chooseAttributes()
         {
             this.changeAttributes()
-            // this.$emit("selectAttributes", this.attributesList)
-            console.log("attributes:",this.attributesList)
         },
         handleBlur: function(){
-            console.log("blur")
             this.chooseAttributes()
         },
     }
