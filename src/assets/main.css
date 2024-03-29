@@ -1,7 +1,7 @@
 @import './base.css';
 
 #app {
-  max-width: 1280px;
+  min-height: 100vh;
   font-weight: normal;
   text-align: center;
   position: absolute;
@@ -12,6 +12,25 @@
   filter: drop-shadow(0 5px 0.4rem rgba(0, 0, 0, 0.433));
 }
 
+.footer { 
+  position: absolute; 
+  bottom: 0; 
+  left: 0; 
+  z-index: 10;
+}
+
+.tooltip{
+  width: 80vw;
+  height: fit-content;
+  padding:10px;
+  background-color: var(--tooltip);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  justify-content: center;
+}
 
 button {
   display: inline-block;
@@ -20,7 +39,7 @@ button {
   background: var(--color-button);
   padding: 0.7em;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: var(--fontsize);
   transform-style: preserve-3d;
   transform: translate3d(0, 0em, 1em);
   transition: transform 0.3s cubic-bezier(0,0,0.58,1),
@@ -41,7 +60,7 @@ button:before {
   bottom: 0;
   background: var(--color-button-back);
   border-radius: inherit;
-  transform: translate3d(0, 0.5em, -1em);
+  transform: translate3d(0, 0.3em, -1em);
   transition: transform 0.3s cubic-bezier(0,0,0.58,1),
   background 0.3s cubic-bezier(0,0,0.58,1);
 }
@@ -82,6 +101,7 @@ button.bottomWindow{
   flex-direction: column;
   width: 100vw;
   position: relative;
+  margin-bottom: 50px;
 }
 
 .correct{
@@ -97,7 +117,43 @@ button.bottomWindow{
 }
 
 .invisible{
-  opacity: 0;
+  display: none;
+}
+
+.link{
+  color: #fff;
+}
+
+.link:hover{
+  color:#96bba4;
+}
+
+.close {
+  position: absolute;
+  right: var(--close-height);
+  /* top: var(--close-height); */
+  width: var(--close-height);
+  height: var(--close-height);
+  opacity: 0.3;
+  z-index:100;
+}
+.close:hover {
+  opacity: 1;
+  cursor: pointer; 
+}
+.close:before, .close:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: var(--close-height);
+  width: 2px;
+  background-color: #ffffff;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
 }
 
 @keyframes appear {

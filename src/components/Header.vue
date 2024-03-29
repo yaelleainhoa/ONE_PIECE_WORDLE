@@ -28,9 +28,9 @@
 
 #header
 {
-    height:200px;
+    height:var(--header-height);
     width:fit-content;
-    margin:auto;
+    margin: 30px auto;
     transition: transform 0.2s ease-in-out;
 }
 

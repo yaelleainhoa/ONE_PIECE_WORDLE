@@ -54,7 +54,7 @@ export default {
         {
           setTimeout(() => {
             this.$emit("checkAnswer")
-          }, this.characterAttributes.length * 400)  
+          }, this.characterAttributes.length * 550)  
         }
       }
     }

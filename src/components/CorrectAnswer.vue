@@ -67,11 +67,11 @@ export default {
     width:fit-content;
     margin:20px auto;
     border-radius: 5px;
-    animation: appear 1s ease-in-out;
+    animation: appear 2s ease-in-out;
 }
 
 .image{
-    height:180px;
+    height:var(--answer-img-height);
     width:fit-content;
     overflow: hidden;
 }

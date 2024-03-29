@@ -43,8 +43,8 @@ img{
 }
 
 .icon{
-    width: 20px;
-    height: 20px;
+    width: var(--icon-width);
+    height: var(--icon-width);
     display: flex;
     align-items: center;
 }

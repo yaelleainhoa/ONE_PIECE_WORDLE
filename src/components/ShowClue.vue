@@ -63,7 +63,7 @@ defineProps({
         },
         handleBlur()
         {
-          this.showClue();
+          if(this.showingClue) this.showingClue = false;
         }
     }
   }
@@ -92,7 +92,7 @@ button{
 }
 
 p{
-  font-size: 14px;
+  font-size: var(--fontsize);
 }
 
 @media (min-width: 1024px) {

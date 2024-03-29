@@ -122,7 +122,7 @@ export default {
 }
 
 .largestSize {
-  font-size: 16px;
+  font-size: var(--fontsize);
 }
 
 @media (min-width: 1024px) {

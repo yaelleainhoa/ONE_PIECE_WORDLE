@@ -22,7 +22,7 @@ defineProps({
           type="text"
           id="search"
           v-model="searchTerm"
-          placeholder="Type here..."
+          placeholder="Type a character's name..."
           @input="handleInput"
           autocomplete="off"
           @click="seeSuggestions"
@@ -127,6 +127,7 @@ defineProps({
 {
   width: var(--search-width);
   height: var(--search-height);
+  font-size: 14px;
 }
 
 ul{

@@ -1,55 +1,37 @@
 <script setup lang="ts">
 
-import Header from '@/components/Header.vue';
+import SpoilerWarning from '@/components/SpoilerWarning.vue'
 
 </script>
 
 <template>
     <div id="home">
-      <Header></Header>
+
+      <SpoilerWarning></SpoilerWarning>
+
       <nav class="nav">
         <div class="games">
           <RouterLink class="shadowElement" to="/classic">
             <button>
-              <h2>Classic</h2>
+              <h3>CLASSIC</h3>
               <p>Get clues at every try</p>
             </button>
           </RouterLink>
         </div>
 
-        <RouterLink class="policy shadowElement" to="/policy">
-          Legal Disclaimer: Content Rights
-        </RouterLink>
       </nav>
     </div>
   </template>
 
 <style scoped>
 
-.nav{
-  height:80vh;
-}
-
 .games{
   display: flex;
   flex-direction: column;
 }
 
-.policy{
-  position: absolute;
-  bottom: 12px;
-  color: #fff;
-  width: 100vw;
-  left: 0px;
-}
-
-#home{
-  height:100vh;
-}
-
-
-#appContent{
-  height:100vh;
+h3{
+  font-weight: 500;
 }
 
 </style>

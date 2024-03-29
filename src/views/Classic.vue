@@ -5,6 +5,7 @@ import ResearchCharacter from '@/components/ResearchCharacter.vue'
 import ChooseDifficulty from '@/components/ChooseDifficulty.vue'
 import ChooseAttributes from '@/components/ChooseAttributes.vue'
 import Header from '@/components/Header.vue'
+import Rules from '@/components/Rules.vue'
 import CorrectAnswer from '@/components/CorrectAnswer.vue'
 import ShowClue from '@/components/ShowClue.vue'
 import {setRandomCharacterToGuess, getCharacterAttributesById, setAttributes} from '@/services/api/opAPI.js'
@@ -15,39 +16,43 @@ import giveup from '../assets/giveup.png'
 </script>
 
 <template>
-  <Header></Header>
-  <div class="options shadowElement">
+  <div class="options shadowElement" ref="options">
+    <ChooseAttributes :attributesList="attributesFullNameList" :disabled="loading"></ChooseAttributes>
     <ChooseDifficulty class="option" v-on:selectDifficulty="selectDifficulty"></ChooseDifficulty>
     <IconButton value="New character" :image="replay" class="option" @click="setRandomCharacter" :disabled="loading"></IconButton>
     <ShowClue class="option" :clue="characterToGuess.clue" :disabled="loading"></ShowClue>
     <IconButton value="Give up round" :image="giveup" class="option" @click="showAnswer" :disabled="loading"></IconButton>
-    <ChooseAttributes :attributesList="attributesFullNameList" :disabled="loading"></ChooseAttributes>
   </div>
+
+  <Rules></Rules>
 
   <ResearchCharacter class="shadowElement" :reset="reset" :loading="loading" v-on:selectCharacter="addCharacter" id="guesser"></ResearchCharacter>
   <CorrectAnswer class="shadowElement" v-if="showingAnswer" :image="characterToGuess.image" :names="characterToGuess.names" :isCharacterSame="isCharacterSame" :isAnswerCorrect="isAnswerCorrect"></CorrectAnswer>
-  <div v-if="ready" class="attributesList">
-    <div class="flex">
-      <div class="attributeName" v-for="(attribute, index) in attributesFullNameList" :key="index" v-show="index == 0 || !attributesFullNameList[index-1].hidden"> 
-        <div v-if="attribute.all_possibilities" v-bind:title="attribute.all_possibilities"class="information">
-          <img src="../assets/info.png">
+  
+  <div class="guessesGame">
+    <div v-if="ready" class="attributesList">
+      <div class="flex">
+        <div class="attributeName" v-for="(attribute, index) in attributesFullNameList" :key="index" v-show="index == 0 || !attributesFullNameList[index-1].hidden"> 
+          <div v-if="attribute.all_possibilities" v-bind:title="attribute.all_possibilities[1]" @click="seeAllPossibilities(attribute.all_possibilities[0])" class="information">
+          <!-- <div v-if="attribute.all_possibilities" v-bind:title="attribute.all_possibilities" class="information"> -->
+            <img src="../assets/info.png">
+            <span ref="spanInfo" class="tooltip" style="display: none;"> {{ attribute.all_possibilities[1] }} </span>
+          </div>
+          <p v-bind:title="attribute.all_possibilities">{{ attribute.full_name }}</p>
         </div>
-        <p v-bind:title="attribute.all_possibilities">{{ attribute.full_name }}</p>
+      </div>
+      <div class="flex">
+        <div v-for="(attribute, index) in attributesFullNameList" v-show="index == 0 || !attributesFullNameList[index-1].hidden"> 
+          <div class="separator"></div>
+        </div>
       </div>
     </div>
-    <div class="flex">
-      <div v-for="(attribute, index) in attributesFullNameList" v-show="index == 0 || !attributesFullNameList[index-1].hidden"> 
-        <div class="separator"></div>
-      </div>
+
+    <div class="characters">
+      <CharacterLine v-on:checkAnswer="checkAnswer" v-for="character in charactersLinesList" :characterAttributes=character :attributesList=attributesFullNameList></CharacterLine>
     </div>
   </div>
 
-  <div class="characters">
-    <CharacterLine v-on:checkAnswer="checkAnswer" v-for="character in charactersLinesList" :characterAttributes=character :attributesList=attributesFullNameList></CharacterLine>
-  </div>
-  <!-- <nav>
-      <RouterLink to="/">Home</RouterLink>
-  </nav> -->
   <RouterView />
 </template>
 
@@ -61,7 +66,8 @@ import giveup from '../assets/giveup.png'
       ChooseAttributes,
       Header,
       CorrectAnswer,
-      IconButton
+      IconButton,
+      Rules
       },
     data() {
       return {
@@ -84,11 +90,14 @@ import giveup from '../assets/giveup.png'
       this.ready = true;
     },
     computed: {
-    mainCharacter: function(){
-      let Character = this.CharactersData[0];
-      return Character;
+      mainCharacter: function(){
+        let Character = this.CharactersData[0];
+        return Character;
+      }
     },
-  },
+    mounted(){
+      this.setZIndexOptions();
+    },
     methods: {
       addCharacter: async function(id)
       {
@@ -125,6 +134,23 @@ import giveup from '../assets/giveup.png'
         this.isAnswerCorrect = true
         this.showAnswer()
       },
+      setZIndexOptions: function()
+      {
+          const optionsChildren = Array.from(this.$refs.options.children);
+          optionsChildren.forEach((child, index) => {
+          child.style.zIndex = 5 + optionsChildren.length - index;
+        });
+      },
+      seeAllPossibilities: function(index)
+      {
+        const allPossibilities = this.$refs.spanInfo[index];
+        if(allPossibilities){
+          allPossibilities.style.display = 'inline';
+          setTimeout(() => {
+            allPossibilities.style.display = 'none';
+          }, 3000)
+        }
+      }
     }
   }
 </script>
@@ -154,7 +180,7 @@ import giveup from '../assets/giveup.png'
   display: flex;
   align-items: center;
   text-align: center;
-  font-size: 15px;
+  font-size: var(--fontsize);
   flex-direction: column;
   justify-content: flex-end;
 }
@@ -174,14 +200,14 @@ import giveup from '../assets/giveup.png'
 
 .flex{
   display: flex;
+  width: fit-content;
 }
 
 .options{
   display: flex;
   justify-content: center;
   margin: auto;
-  margin-bottom: 3em;
-  z-index:10;
+  z-index: 10;
 }
 
 .option{
@@ -203,16 +229,15 @@ import giveup from '../assets/giveup.png'
   width: 100%;
 }
 
+.guessesGame
+{
+  overflow: auto;
+  margin:auto;
+  max-width: 90vw;
+  padding-bottom: 10px;
+}
+
 @media (max-width: 1024px) {
-
-  /* nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  } */
 
   .options{
     flex-direction: column;;

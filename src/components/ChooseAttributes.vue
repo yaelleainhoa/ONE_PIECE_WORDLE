@@ -18,7 +18,7 @@ defineProps({
 <template>
     <div class="chooseAttributes">
         <IconButton value="Hide attributes" :disabled="disabled" :image="icon" @click="changeAttributes" :class="[choosing ? 'bottomWindow' : '']"></IconButton>
-        <div multiple name="levels" tabindex="0" @blur="handleBlur" class="options" :class="[choosing ? '' : 'invisible']">
+        <div multiple name="levels" tabindex="0" @blur="handleBlur" class="options" :class="[choosing ? 'visible' : 'invisible']">
             <option class="option" @click="chooseAttribute(index)" v-for="(attribute, index) in attributesList.slice(1)"  > 
                 <input type="checkbox" :id=index name="my-checkbox" id="opt-in" checked />
                 {{ attribute.full_name }} 
